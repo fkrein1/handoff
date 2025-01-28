@@ -13,16 +13,20 @@ type EditFormProps = {
 	onClose: () => void
 }
 
+function isEstimateRow(data: any): data is EstimateRow {
+	return "price" in data && "quantity" in data && "uom" in data
+}
+
 export function EditForm({ mode, data, onSave, onClose }: EditFormProps) {
 	const [title, setTitle] = useState(data.title)
 	const [price, setPrice] = useState(
-		mode === "item" ? (data as EstimateRow).price.toString() : ""
+		isEstimateRow(data) ? data.price.toString() : ""
 	)
 	const [quantity, setQuantity] = useState(
-		mode === "item" ? (data as EstimateRow).quantity.toString() : ""
+		isEstimateRow(data) ? data.quantity.toString() : ""
 	)
 	const [uom, setUom] = useState<UnitOfMeasure>(
-		mode === "item" ? (data as EstimateRow).uom : "EA"
+		isEstimateRow(data) ? data.uom : "EA"
 	)
 
 	const handleSave = () => {
