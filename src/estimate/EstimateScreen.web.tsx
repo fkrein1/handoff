@@ -1,53 +1,31 @@
 import { View, StyleSheet, TextInput, Pressable } from "react-native"
 import { Text } from "../common/components/Text"
-import { useEstimateContext } from "./context"
 import type { EstimateRow, EstimateSection } from "@/data"
-import { useState } from "react"
-import { EditItemForm } from "./EditItemForm"
 import {
 	calculateSectionTotal,
 	calculateEstimateTotal,
 } from "../common/lib/estimate"
-import { EditSectionForm } from "./EditSectionForm"
-
-type EditMode =
-	| {
-			type: "item"
-			data: EstimateRow
-	  }
-	| {
-			type: "section"
-			data: EstimateSection
-	  }
-	| null
+import { EditForm } from "./EditForm"
+import { useEstimateScreen } from "./useEstimateScreen"
 
 export default function EstimateScreenDesktop() {
-	const { estimate, updateTitle, updateRow, updateSection } =
-		useEstimateContext()
-	const [editMode, setEditMode] = useState<EditMode>(null)
-
-	const handleItemPress = (item: EstimateRow) => {
-		setEditMode({ type: "item", data: item })
-	}
+	const {
+		estimate,
+		updateTitle,
+		editMode,
+		handleStartItemEdit,
+		handleStartSectionEdit,
+		handleSaveItem,
+		handleSaveSection,
+		handleClose,
+	} = useEstimateScreen()
 
 	const handleSectionPress = (section: EstimateSection) => {
-		setEditMode({ type: "section", data: section })
+		handleStartSectionEdit(section)
 	}
 
-	const handleSaveItem = (updatedItem: EstimateRow) => {
-		updateRow(updatedItem.id, updatedItem)
-		setEditMode(null)
-	}
-
-	const handleSaveSection = (updates: Partial<EstimateSection>) => {
-		if (editMode?.type === "section") {
-			updateSection(editMode.data.id, updates)
-			setEditMode(null)
-		}
-	}
-
-	const handleClose = () => {
-		setEditMode(null)
+	const handleItemPress = (item: EstimateRow) => {
+		handleStartItemEdit(item)
 	}
 
 	const renderEditForm = () => {
@@ -61,20 +39,16 @@ export default function EstimateScreenDesktop() {
 			)
 		}
 
-		if (editMode.type === "item") {
-			return (
-				<EditItemForm
-					item={editMode.data}
-					onSave={handleSaveItem}
-					onClose={handleClose}
-				/>
-			)
-		}
-
 		return (
-			<EditSectionForm
-				section={editMode.data}
-				onSave={handleSaveSection}
+			<EditForm
+				key={editMode.data.id}
+				mode={editMode.type}
+				data={editMode.data}
+				onSave={
+					editMode.type === "item"
+						? handleSaveItem
+						: handleSaveSection
+				}
 				onClose={handleClose}
 			/>
 		)
@@ -112,16 +86,6 @@ export default function EstimateScreenDesktop() {
 									${calculateSectionTotal(section).toFixed(2)}
 								</Text>
 							</Pressable>
-
-							{/* Table header */}
-							<View style={styles.tableHeader}>
-								<Text style={styles.col1}>Item</Text>
-								<Text style={styles.col2}>Supplier</Text>
-								<Text style={styles.col3}>Price</Text>
-								<Text style={styles.col4}>Quantity</Text>
-								<Text style={styles.col5}>Total</Text>
-							</View>
-
 							{/* Table rows */}
 							{section.rows.map((row) => (
 								<Pressable
@@ -134,19 +98,20 @@ export default function EstimateScreenDesktop() {
 									]}
 									onPress={() => handleItemPress(row)}
 								>
-									<Text style={styles.col1}>{row.title}</Text>
-									<Text style={styles.col2}>
-										{row.supplier?.name}{" "}
-										{row.supplier?.sku &&
-											`(${row.supplier.sku})`}
-									</Text>
-									<Text style={styles.col3}>
-										${row.price.toFixed(2)}
-									</Text>
-									<Text style={styles.col4}>
-										{row.quantity} {row.uom}
-									</Text>
-									<Text style={styles.col5}>
+									<View style={styles.rowLeftContent}>
+										<Text style={styles.rowTitle}>
+											{row.title}
+										</Text>
+										<View style={styles.rowDetails}>
+											<Text
+												style={styles.rowPriceDetails}
+											>
+												${row.price.toFixed(2)} ×{" "}
+												{row.quantity} {row.uom}
+											</Text>
+										</View>
+									</View>
+									<Text>
 										${(row.price * row.quantity).toFixed(2)}
 									</Text>
 								</Pressable>
@@ -224,13 +189,6 @@ const styles = StyleSheet.create({
 		borderBottomWidth: 1,
 		borderBottomColor: "#e0e0e0",
 	},
-	tableHeader: {
-		flexDirection: "row",
-		padding: 12,
-		borderBottomWidth: 1,
-		borderBottomColor: "#e0e0e0",
-		backgroundColor: "#f5f5f5",
-	},
 	tableRow: {
 		flexDirection: "row",
 		padding: 12,
@@ -241,11 +199,20 @@ const styles = StyleSheet.create({
 	selectedRow: {
 		backgroundColor: "#f0f7ff",
 	},
-	col1: { flex: 3 }, // Item name
-	col2: { flex: 2 }, // Supplier
-	col3: { flex: 1 }, // Price
-	col4: { flex: 1 }, // Quantity
-	col5: { flex: 1 }, // Total
+	rowLeftContent: {
+		flex: 1,
+		marginRight: 16,
+	},
+	rowTitle: {
+		fontSize: 16,
+		marginBottom: 4,
+	},
+	rowDetails: {
+		opacity: 0.7,
+	},
+	rowPriceDetails: {
+		fontSize: 14,
+	},
 	estimateTotal: {
 		flexDirection: "row",
 		justifyContent: "space-between",
