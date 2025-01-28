@@ -18,16 +18,8 @@ export default function EstimateScreenDesktop() {
 		handleStartSectionEdit,
 		handleSaveItem,
 		handleSaveSection,
-		handleClose,
+		handleStopEdit,
 	} = useEstimateScreen()
-
-	const handleSectionPress = (section: EstimateSection) => {
-		handleStartSectionEdit(section)
-	}
-
-	const handleItemPress = (item: EstimateRow) => {
-		handleStartItemEdit(item)
-	}
 
 	const renderEditForm = () => {
 		if (!editMode) {
@@ -48,7 +40,7 @@ export default function EstimateScreenDesktop() {
 						? handleSaveItem
 						: handleSaveSection
 				}
-				onClose={handleClose}
+				onClose={handleStopEdit}
 			/>
 		)
 	}
@@ -78,7 +70,7 @@ export default function EstimateScreenDesktop() {
 										editMode.data.id === section.id &&
 										styles.selectedSection,
 								]}
-								onPress={() => handleSectionPress(section)}
+								onPress={() => handleStartSectionEdit(section)}
 							>
 								<Text>{section.title}</Text>
 								<Text>
@@ -95,7 +87,7 @@ export default function EstimateScreenDesktop() {
 											editMode.data.id === row.id &&
 											styles.selectedRow,
 									]}
-									onPress={() => handleItemPress(row)}
+									onPress={() => handleStartItemEdit(row)}
 								>
 									<View style={styles.rowLeftContent}>
 										<Text style={styles.rowTitle}>

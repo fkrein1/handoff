@@ -14,17 +14,19 @@ export function useEstimateScreen() {
 	} = useEstimateContext()
 
 	const handleSaveItem = (updatedItem: EstimateRow) => {
+		if (editMode?.type !== "item") {
+			return
+		}
+
 		updateItem(updatedItem.id, updatedItem)
 	}
 
 	const handleSaveSection = (updates: Partial<EstimateSection>) => {
-		if (editMode?.type === "section") {
-			updateSection(editMode.data.id, updates)
+		if (editMode?.type !== "section") {
+			return
 		}
-	}
 
-	const handleClose = () => {
-		clearSelection()
+		updateSection(editMode.data.id, updates)
 	}
 
 	return {
@@ -35,6 +37,6 @@ export function useEstimateScreen() {
 		handleStartSectionEdit: selectSection,
 		handleSaveItem,
 		handleSaveSection,
-		handleClose,
+		handleStopEdit: clearSelection,
 	}
 }
