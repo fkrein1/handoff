@@ -34,9 +34,7 @@ export function Button({
 }
 
 const styles = StyleSheet.create({
-	button: {
-		backgroundColor: "blue",
-	},
+	button: {},
 	disabled: {},
 	text: {},
 	hovered: {},

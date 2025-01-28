@@ -1,29 +1,83 @@
 import { View, StyleSheet, TextInput, Pressable } from "react-native"
 import { Text } from "../common/components/Text"
-import type { EstimateRow } from "@/data"
+import { useEstimateContext } from "./context"
+import type { EstimateRow, EstimateSection } from "@/data"
 import { useState } from "react"
 import { EditItemForm } from "./EditItemForm"
 import {
 	calculateSectionTotal,
 	calculateEstimateTotal,
 } from "../common/lib/estimate"
-import { useEstimateContext } from "./context"
+import { EditSectionForm } from "./EditSectionForm"
+
+type EditMode =
+	| {
+			type: "item"
+			data: EstimateRow
+	  }
+	| {
+			type: "section"
+			data: EstimateSection
+	  }
+	| null
 
 export default function EstimateScreenDesktop() {
-	const { estimate, updateTitle, updateRow } = useEstimateContext()
-	const [selectedItem, setSelectedItem] = useState<EstimateRow | null>(null)
+	const { estimate, updateTitle, updateRow, updateSection } =
+		useEstimateContext()
+	const [editMode, setEditMode] = useState<EditMode>(null)
 
 	const handleItemPress = (item: EstimateRow) => {
-		setSelectedItem(item)
+		setEditMode({ type: "item", data: item })
+	}
+
+	const handleSectionPress = (section: EstimateSection) => {
+		setEditMode({ type: "section", data: section })
 	}
 
 	const handleSaveItem = (updatedItem: EstimateRow) => {
 		updateRow(updatedItem.id, updatedItem)
-		setSelectedItem(null)
+		setEditMode(null)
 	}
 
-	const handleCloseForm = () => {
-		setSelectedItem(null)
+	const handleSaveSection = (updates: Partial<EstimateSection>) => {
+		if (editMode?.type === "section") {
+			updateSection(editMode.data.id, updates)
+			setEditMode(null)
+		}
+	}
+
+	const handleClose = () => {
+		setEditMode(null)
+	}
+
+	const renderEditForm = () => {
+		if (!editMode) {
+			return (
+				<View style={styles.noSelection}>
+					<Text type="subtitle">
+						Select an item or section to edit
+					</Text>
+				</View>
+			)
+		}
+
+		if (editMode.type === "item") {
+			return (
+				<EditItemForm
+					item={editMode.data}
+					onSave={handleSaveItem}
+					onClose={handleClose}
+				/>
+			)
+		}
+
+		return (
+			<EditSectionForm
+				section={editMode.data}
+				onSave={handleSaveSection}
+				onClose={handleClose}
+			/>
+		)
 	}
 
 	return (
@@ -44,12 +98,20 @@ export default function EstimateScreenDesktop() {
 				<View style={styles.tableContainer}>
 					{estimate.sections.map((section) => (
 						<View key={section.id} style={styles.section}>
-							<View style={styles.sectionHeader}>
+							<Pressable
+								style={[
+									styles.sectionHeader,
+									editMode?.type === "section" &&
+										editMode.data.id === section.id &&
+										styles.selectedSection,
+								]}
+								onPress={() => handleSectionPress(section)}
+							>
 								<Text type="subtitle">{section.title}</Text>
 								<Text type="subtitle">
 									${calculateSectionTotal(section).toFixed(2)}
 								</Text>
-							</View>
+							</Pressable>
 
 							{/* Table header */}
 							<View style={styles.tableHeader}>
@@ -66,7 +128,8 @@ export default function EstimateScreenDesktop() {
 									key={row.id}
 									style={[
 										styles.tableRow,
-										selectedItem?.id === row.id &&
+										editMode?.type === "item" &&
+											editMode.data.id === row.id &&
 											styles.selectedRow,
 									]}
 									onPress={() => handleItemPress(row)}
@@ -100,19 +163,7 @@ export default function EstimateScreenDesktop() {
 				</View>
 
 				{/* Right side - Edit form */}
-				<View style={styles.formContainer}>
-					{selectedItem ? (
-						<EditItemForm
-							item={selectedItem}
-							onSave={handleSaveItem}
-							onClose={handleCloseForm}
-						/>
-					) : (
-						<View style={styles.noSelection}>
-							<Text type="subtitle">Select an item to edit</Text>
-						</View>
-					)}
-				</View>
+				<View style={styles.formContainer}>{renderEditForm()}</View>
 			</View>
 		</View>
 	)
@@ -161,6 +212,9 @@ const styles = StyleSheet.create({
 		shadowOpacity: 0.1,
 		shadowRadius: 4,
 		elevation: 3,
+	},
+	selectedSection: {
+		backgroundColor: "#e6f0ff",
 	},
 	sectionHeader: {
 		flexDirection: "row",
