@@ -1,10 +1,4 @@
-import {
-	View,
-	StyleSheet,
-	TextInput,
-	ScrollView,
-	Pressable,
-} from "react-native"
+import { View, StyleSheet, ScrollView, Pressable } from "react-native"
 import { Text } from "../common/components/Text"
 import { BottomSheet } from "../common/components/BottomSheet"
 import { useRef } from "react"
@@ -16,6 +10,7 @@ import {
 import type { EstimateRow, EstimateSection } from "@/data"
 import { EditForm } from "./EditForm"
 import { useEstimateScreen } from "./useEstimateScreen"
+import { TextField } from "../common/components/TextField"
 
 export default function EstimateScreen() {
 	const bottomSheetRef = useRef<BottomSheet>(null)
@@ -49,7 +44,7 @@ export default function EstimateScreen() {
 	return (
 		<View style={styles.container}>
 			<ScrollView>
-				<TextInput
+				<TextField
 					style={styles.titleInput}
 					value={estimate.title}
 					onChangeText={updateTitle}

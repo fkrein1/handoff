@@ -1,18 +1,7 @@
 import type { EstimateRow, EstimateSection } from "@/data"
 import { useEstimateContext } from "./context"
 
-interface UseEstimateScreenResult {
-	estimate: ReturnType<typeof useEstimateContext>["estimate"]
-	editMode: ReturnType<typeof useEstimateContext>["editMode"]
-	updateTitle: (title: string) => void
-	handleStartItemEdit: (item: EstimateRow) => void
-	handleStartSectionEdit: (section: EstimateSection) => void
-	handleSaveItem: (updatedItem: EstimateRow) => void
-	handleSaveSection: (updates: Partial<EstimateSection>) => void
-	handleClose: () => void
-}
-
-export function useEstimateScreen(): UseEstimateScreenResult {
+export function useEstimateScreen() {
 	const {
 		estimate,
 		editMode,

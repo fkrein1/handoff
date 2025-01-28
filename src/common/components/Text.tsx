@@ -3,10 +3,12 @@ import {
 	TextProps as RNTextProps,
 	StyleSheet,
 } from "react-native"
-import { PropsWithChildren } from "react"
+import { forwardRef, PropsWithChildren } from "react"
 
 interface TextProps extends RNTextProps {}
 
-export function Text(props: PropsWithChildren<TextProps>) {
-	return <RNText {...props} />
-}
+export const Text = forwardRef<RNText, PropsWithChildren<TextProps>>(
+	function Text(props, ref) {
+		return <RNText ref={ref} {...props} />
+	}
+)

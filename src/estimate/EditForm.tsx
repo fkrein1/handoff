@@ -1,8 +1,9 @@
-import { View, StyleSheet, TextInput } from "react-native"
+import { View, StyleSheet } from "react-native"
 import { Text } from "../common/components/Text"
 import { Button } from "../common/components/Button"
-import { EstimateRow, EstimateSection, UOM_LABELS, UnitOfMeasure } from "@/data"
+import { EstimateRow, EstimateSection, UnitOfMeasure } from "@/data"
 import { useState } from "react"
+import { TextField } from "../common/components/TextField"
 
 type EditFormProps = {
 	mode: "item" | "section"
@@ -45,7 +46,7 @@ export function EditForm({ mode, data, onSave, onClose }: EditFormProps) {
 
 			<View style={styles.field}>
 				<Text>Title</Text>
-				<TextInput
+				<TextField
 					style={styles.input}
 					value={title}
 					onChangeText={setTitle}
@@ -57,7 +58,7 @@ export function EditForm({ mode, data, onSave, onClose }: EditFormProps) {
 				<>
 					<View style={styles.field}>
 						<Text>Price</Text>
-						<TextInput
+						<TextField
 							style={styles.input}
 							value={price}
 							onChangeText={setPrice}
@@ -65,10 +66,9 @@ export function EditForm({ mode, data, onSave, onClose }: EditFormProps) {
 							placeholder="Enter price"
 						/>
 					</View>
-
 					<View style={styles.field}>
 						<Text>Quantity</Text>
-						<TextInput
+						<TextField
 							style={styles.input}
 							value={quantity}
 							onChangeText={setQuantity}

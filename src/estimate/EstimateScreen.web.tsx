@@ -1,4 +1,4 @@
-import { View, StyleSheet, TextInput, Pressable } from "react-native"
+import { View, StyleSheet, Pressable } from "react-native"
 import { Text } from "../common/components/Text"
 import type { EstimateRow, EstimateSection } from "@/data"
 import {
@@ -7,6 +7,7 @@ import {
 } from "../common/lib/estimate"
 import { EditForm } from "./EditForm"
 import { useEstimateScreen } from "./useEstimateScreen"
+import { TextField } from "../common/components/TextField"
 
 export default function EstimateScreenDesktop() {
 	const {
@@ -56,7 +57,7 @@ export default function EstimateScreenDesktop() {
 		<View style={styles.container}>
 			{/* Header */}
 			<View style={styles.header}>
-				<TextInput
+				<TextField
 					style={styles.titleInput}
 					value={estimate.title}
 					onChangeText={updateTitle}
