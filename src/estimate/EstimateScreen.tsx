@@ -9,34 +9,59 @@ import { Text } from "../common/components/Text"
 import { BottomSheet } from "../common/components/BottomSheet"
 import { useRef, useState } from "react"
 import { BottomSheetView } from "@gorhom/bottom-sheet"
-import { sampleEstimate } from "@/data"
 import {
 	calculateSectionTotal,
 	calculateEstimateTotal,
 } from "../common/lib/estimate"
 import { EditItemForm } from "./EditItemForm"
-import type { EstimateRow } from "@/data"
+import { EditSectionForm } from "./EditSectionForm"
+import type { EstimateRow, EstimateSection } from "@/data"
 import { useEstimateContext } from "./context"
+
+type EditMode =
+	| {
+			type: "item"
+			data: EstimateRow
+	  }
+	| {
+			type: "section"
+			data: EstimateSection
+	  }
+	| null
 
 export default function EstimateScreen() {
 	const bottomSheetRef = useRef<BottomSheet>(null)
-	const [selectedItem, setSelectedItem] = useState<EstimateRow | null>(null)
-	const { estimate, updateTitle, updateRow } = useEstimateContext()
+	const [editMode, setEditMode] = useState<EditMode>(null)
+	const { estimate, updateTitle, updateRow, updateSection } =
+		useEstimateContext()
 
 	const handleItemPress = (item: EstimateRow) => {
-		setSelectedItem(item)
+		setEditMode({ type: "item", data: item })
+		bottomSheetRef.current?.expand()
+	}
+
+	const handleSectionPress = (section: EstimateSection) => {
+		setEditMode({ type: "section", data: section })
 		bottomSheetRef.current?.expand()
 	}
 
 	const handleSaveItem = (updatedItem: EstimateRow) => {
 		updateRow(updatedItem.id, updatedItem)
 		bottomSheetRef.current?.close()
-		setSelectedItem(null)
+		setEditMode(null)
+	}
+
+	const handleSaveSection = (updates: Partial<EstimateSection>) => {
+		if (editMode?.type === "section") {
+			updateSection(editMode.data.id, updates)
+			bottomSheetRef.current?.close()
+			setEditMode(null)
+		}
 	}
 
 	const handleCloseBottomSheet = () => {
 		bottomSheetRef.current?.close()
-		setSelectedItem(null)
+		setEditMode(null)
 	}
 
 	return (
@@ -50,11 +75,15 @@ export default function EstimateScreen() {
 				/>
 				{estimate.sections.map((section) => (
 					<View key={section.id} style={styles.section}>
-						<Text type="subtitle">
-							{section.title}: $
-							{calculateSectionTotal(section).toFixed(2)}
-						</Text>
-
+						<Pressable
+							onPress={() => handleSectionPress(section)}
+							style={styles.sectionHeader}
+						>
+							<Text type="subtitle">
+								{section.title}: $
+								{calculateSectionTotal(section).toFixed(2)}
+							</Text>
+						</Pressable>
 						{section.rows.map((row) => (
 							<Pressable
 								key={row.id}
@@ -62,22 +91,31 @@ export default function EstimateScreen() {
 								onPress={() => handleItemPress(row)}
 							>
 								<View style={styles.rowHeader}>
-									<Text type="default">{row.title}</Text>
-									{row.supplier && (
-										<Text type="default">
-											{row.supplier.name}{" "}
-											{row.supplier.sku &&
-												`(${row.supplier.sku})`}
-										</Text>
-									)}
+									<Text
+										type="default"
+										style={styles.rowTitle}
+									>
+										{row.title}
+									</Text>
+									<Text
+										type="default"
+										style={styles.rowTotal}
+									>
+										${(row.price * row.quantity).toFixed(2)}
+									</Text>
 								</View>
 								<View style={styles.rowDetails}>
-									<Text>
-										${row.price.toFixed(2)} × {row.quantity}{" "}
-										{row.uom}
+									<Text
+										type="default"
+										style={styles.supplier}
+									>
+										{row.supplier?.name}{" "}
+										{row.supplier?.sku &&
+											`(${row.supplier.sku})`}
 									</Text>
 									<Text type="default">
-										${(row.price * row.quantity).toFixed(2)}
+										${row.price.toFixed(2)} × {row.quantity}{" "}
+										{row.uom}
 									</Text>
 								</View>
 							</Pressable>
@@ -99,10 +137,17 @@ export default function EstimateScreen() {
 				index={-1}
 			>
 				<BottomSheetView>
-					{selectedItem && (
+					{editMode?.type === "item" && (
 						<EditItemForm
-							item={selectedItem}
+							item={editMode.data}
 							onSave={handleSaveItem}
+							onClose={handleCloseBottomSheet}
+						/>
+					)}
+					{editMode?.type === "section" && (
+						<EditSectionForm
+							section={editMode.data}
+							onSave={handleSaveSection}
 							onClose={handleCloseBottomSheet}
 						/>
 					)}
@@ -119,51 +164,51 @@ const styles = StyleSheet.create({
 	titleInput: {
 		fontSize: 24,
 		fontWeight: "bold",
-		padding: 12,
-		borderRadius: 8,
-		backgroundColor: "#f5f5f5",
-		margin: 16,
+		padding: 16,
 	},
 	section: {
-		marginHorizontal: 16,
-		marginBottom: 24,
-		backgroundColor: "#ffffff",
+		marginBottom: 16,
+		backgroundColor: "#fff",
+	},
+	sectionHeader: {
 		padding: 16,
-		borderRadius: 8,
-		shadowColor: "#000",
-		shadowOffset: { width: 0, height: 2 },
-		shadowOpacity: 0.1,
-		shadowRadius: 4,
-		elevation: 3,
+		backgroundColor: "#f5f5f5",
+		borderBottomWidth: 1,
+		borderBottomColor: "#e0e0e0",
 	},
 	row: {
-		marginTop: 12,
-		paddingVertical: 8,
+		padding: 16,
 		borderBottomWidth: 1,
-		borderBottomColor: "#f0f0f0",
+		borderBottomColor: "#e0e0e0",
 	},
 	rowHeader: {
+		flexDirection: "row",
+		justifyContent: "space-between",
+		alignItems: "center",
 		marginBottom: 4,
+	},
+	rowTitle: {
+		flex: 1,
+		marginRight: 8,
+	},
+	rowTotal: {
+		fontWeight: "bold",
 	},
 	rowDetails: {
 		flexDirection: "row",
 		justifyContent: "space-between",
-		alignItems: "center",
+		opacity: 0.7,
 	},
-	sectionTotal: {
-		flexDirection: "row",
-		justifyContent: "space-between",
-		marginTop: 16,
-		paddingTop: 12,
-		borderTopWidth: 2,
-		borderTopColor: "#f0f0f0",
+	supplier: {
+		flex: 1,
+		marginRight: 8,
 	},
 	estimateTotal: {
 		flexDirection: "row",
 		justifyContent: "space-between",
-		margin: 16,
 		padding: 16,
-		backgroundColor: "#f8f8f8",
-		borderRadius: 8,
+		backgroundColor: "#fff",
+		borderTopWidth: 1,
+		borderTopColor: "#e0e0e0",
 	},
 })
