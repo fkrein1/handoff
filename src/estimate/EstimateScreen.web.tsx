@@ -32,9 +32,7 @@ export default function EstimateScreenDesktop() {
 		if (!editMode) {
 			return (
 				<View style={styles.noSelection}>
-					<Text type="subtitle">
-						Select an item or section to edit
-					</Text>
+					<Text>Select an item or section to edit</Text>
 				</View>
 			)
 		}
@@ -81,8 +79,8 @@ export default function EstimateScreenDesktop() {
 								]}
 								onPress={() => handleSectionPress(section)}
 							>
-								<Text type="subtitle">{section.title}</Text>
-								<Text type="subtitle">
+								<Text>{section.title}</Text>
+								<Text>
 									${calculateSectionTotal(section).toFixed(2)}
 								</Text>
 							</Pressable>
@@ -120,8 +118,8 @@ export default function EstimateScreenDesktop() {
 					))}
 
 					<View style={styles.estimateTotal}>
-						<Text type="title">Total:</Text>
-						<Text type="title">
+						<Text>Total:</Text>
+						<Text>
 							${calculateEstimateTotal(estimate).toFixed(2)}
 						</Text>
 					</View>

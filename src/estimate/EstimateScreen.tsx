@@ -61,8 +61,8 @@ export default function EstimateScreen() {
 							onPress={() => handleSectionPress(section)}
 							style={styles.sectionHeader}
 						>
-							<Text type="subtitle">{section.title}</Text>
-							<Text type="subtitle">
+							<Text>{section.title}</Text>
+							<Text>
 								${calculateSectionTotal(section).toFixed(2)}
 							</Text>
 						</Pressable>
@@ -89,10 +89,8 @@ export default function EstimateScreen() {
 					</View>
 				))}
 				<View style={styles.estimateTotal}>
-					<Text type="title">Total:</Text>
-					<Text type="title">
-						${calculateEstimateTotal(estimate).toFixed(2)}
-					</Text>
+					<Text>Total:</Text>
+					<Text>${calculateEstimateTotal(estimate).toFixed(2)}</Text>
 				</View>
 			</ScrollView>
 

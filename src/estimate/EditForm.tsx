@@ -39,7 +39,7 @@ export function EditForm({ mode, data, onSave, onClose }: EditFormProps) {
 
 	return (
 		<View style={styles.container}>
-			<Text type="subtitle" style={styles.header}>
+			<Text style={styles.header}>
 				Edit {mode === "item" ? "Item" : "Section"}
 			</Text>
 
