@@ -1,4 +1,4 @@
-import { createContext, useContext } from "react"
+import { createContext, useContext, useMemo } from "react"
 import type { Estimate, EstimateRow, EstimateSection } from "@/data"
 import { PropsWithChildren, useState } from "react"
 import { sampleEstimate } from "@/data"
@@ -84,19 +84,31 @@ export function EstimateProvider({ children }: PropsWithChildren) {
 		setEditMode(null)
 	}
 
+	const value = useMemo(
+		() => ({
+			estimate,
+			editMode,
+			updateTitle,
+			updateSection,
+			updateItem,
+			selectItem,
+			selectSection,
+			clearSelection,
+		}),
+		[
+			estimate,
+			editMode,
+			updateTitle,
+			updateSection,
+			updateItem,
+			selectItem,
+			selectSection,
+			clearSelection,
+		]
+	)
+
 	return (
-		<EstimateContext.Provider
-			value={{
-				estimate,
-				editMode,
-				updateTitle,
-				updateSection,
-				updateItem,
-				selectItem,
-				selectSection,
-				clearSelection,
-			}}
-		>
+		<EstimateContext.Provider value={value}>
 			{children}
 		</EstimateContext.Provider>
 	)
