@@ -1,6 +1,6 @@
 import { View, StyleSheet, TextInput } from "react-native"
-import { Text } from "../../common/components/Text"
-import { Button } from "../../common/components/Button"
+import { Text } from "../common/components/Text"
+import { Button } from "../common/components/Button"
 import { EstimateRow, UOM_LABELS, UnitOfMeasure } from "@/data"
 import { useState } from "react"
 

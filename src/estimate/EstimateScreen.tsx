@@ -14,7 +14,7 @@ import {
 	calculateSectionTotal,
 	calculateEstimateTotal,
 } from "../common/lib/estimate"
-import { EditItemForm } from "./components/EditItemForm"
+import { EditItemForm } from "./EditItemForm"
 import type { EstimateRow } from "@/data"
 import { useEstimateContext } from "./context"
 
