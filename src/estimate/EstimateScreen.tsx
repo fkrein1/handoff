@@ -23,7 +23,7 @@ export default function EstimateScreen() {
 		handleStartSectionEdit,
 		handleSaveItem,
 		handleSaveSection,
-		handleClose,
+		handleStopEdit,
 	} = useEstimateScreen()
 
 	const handleSectionPress = (section: EstimateSection) => {
@@ -38,7 +38,7 @@ export default function EstimateScreen() {
 
 	const handleCloseBottomSheet = () => {
 		bottomSheetRef.current?.close()
-		handleClose()
+		handleStopEdit()
 	}
 
 	return (
