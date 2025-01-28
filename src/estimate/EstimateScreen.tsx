@@ -48,7 +48,6 @@ export default function EstimateScreen() {
 					onChangeText={updateTitle}
 					placeholder="Enter estimate title"
 				/>
-
 				{estimate.sections.map((section) => (
 					<View key={section.id} style={styles.section}>
 						<Text type="subtitle">
@@ -85,7 +84,6 @@ export default function EstimateScreen() {
 						))}
 					</View>
 				))}
-
 				<View style={styles.estimateTotal}>
 					<Text type="title">Total:</Text>
 					<Text type="title">

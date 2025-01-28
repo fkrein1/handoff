@@ -63,19 +63,9 @@ export function EditItemForm({ item, onSave, onClose }: EditItemFormProps) {
 					placeholder="Enter quantity"
 				/>
 			</View>
-
-			<View style={styles.buttonContainer}>
-				<Button
-					variant="secondary"
-					onPress={onClose}
-					style={styles.button}
-				>
-					Cancel
-				</Button>
-				<Button onPress={handleSave} style={styles.button}>
-					Save
-				</Button>
-			</View>
+			<Button onPress={handleSave} style={styles.button}>
+				Save
+			</Button>
 		</View>
 	)
 }
@@ -96,12 +86,6 @@ const styles = StyleSheet.create({
 		borderRadius: 8,
 		padding: 12,
 		marginTop: 4,
-	},
-	buttonContainer: {
-		flexDirection: "row",
-		justifyContent: "flex-end",
-		gap: 8,
-		marginTop: 16,
 	},
 	button: {
 		minWidth: 100,
