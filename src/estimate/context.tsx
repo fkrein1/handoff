@@ -3,20 +3,36 @@ import type { Estimate, EstimateRow, EstimateSection } from "@/data"
 import { PropsWithChildren, useState } from "react"
 import { sampleEstimate } from "@/data"
 
+export type EditMode =
+	| {
+			type: "item"
+			data: EstimateRow
+	  }
+	| {
+			type: "section"
+			data: EstimateSection
+	  }
+	| null
+
 interface EstimateContextValue {
 	estimate: Estimate
+	editMode: EditMode
 	updateTitle: (title: string) => void
 	updateSection: (
 		sectionId: string,
 		updates: Partial<EstimateSection>
 	) => void
-	updateRow: (rowId: string, updates: Partial<EstimateRow>) => void
+	updateItem: (rowId: string, updates: Partial<EstimateRow>) => void
+	selectItem: (item: EstimateRow) => void
+	selectSection: (section: EstimateSection) => void
+	clearSelection: () => void
 }
 
 export const EstimateContext = createContext<EstimateContextValue | null>(null)
 
 export function EstimateProvider({ children }: PropsWithChildren) {
 	const [estimate, setEstimate] = useState<Estimate>(sampleEstimate)
+	const [editMode, setEditMode] = useState<EditMode>(null)
 
 	const updateTitle = (title: string) => {
 		setEstimate((prev) => ({
@@ -28,37 +44,57 @@ export function EstimateProvider({ children }: PropsWithChildren) {
 
 	const updateSection = (
 		sectionId: string,
-		updates: Partial<EstimateSection>
+		updateSection: Partial<EstimateSection>
 	) => {
 		setEstimate((prev) => ({
 			...prev,
 			updatedAt: new Date(),
 			sections: prev.sections.map((section) =>
-				section.id === sectionId ? { ...section, ...updates } : section
+				section.id === sectionId
+					? { ...section, ...updateSection }
+					: section
 			),
 		}))
+		setEditMode(null)
 	}
 
-	const updateRow = (rowId: string, updates: Partial<EstimateRow>) => {
+	const updateItem = (rowId: string, updateItem: Partial<EstimateRow>) => {
 		setEstimate((prev) => ({
 			...prev,
 			updatedAt: new Date(),
 			sections: prev.sections.map((section) => ({
 				...section,
 				rows: section.rows.map((row) =>
-					row.id === rowId ? { ...row, ...updates } : row
+					row.id === rowId ? { ...row, ...updateItem } : row
 				),
 			})),
 		}))
+		setEditMode(null)
+	}
+
+	const selectItem = (item: EstimateRow) => {
+		setEditMode({ type: "item", data: item })
+	}
+
+	const selectSection = (section: EstimateSection) => {
+		setEditMode({ type: "section", data: section })
+	}
+
+	const clearSelection = () => {
+		setEditMode(null)
 	}
 
 	return (
 		<EstimateContext.Provider
 			value={{
 				estimate,
+				editMode,
 				updateTitle,
 				updateSection,
-				updateRow,
+				updateItem,
+				selectItem,
+				selectSection,
+				clearSelection,
 			}}
 		>
 			{children}

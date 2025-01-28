@@ -1,79 +1,49 @@
-import { useState } from "react"
 import type { EstimateRow, EstimateSection } from "@/data"
 import { useEstimateContext } from "./context"
 
-export type EditMode =
-	| {
-			type: "item"
-			data: EstimateRow
-	  }
-	| {
-			type: "section"
-			data: EstimateSection
-	  }
-	| null
-
-interface UseEstimateScreenPayload {
+interface UseEstimateScreenResult {
 	estimate: ReturnType<typeof useEstimateContext>["estimate"]
-	editMode: EditMode
+	editMode: ReturnType<typeof useEstimateContext>["editMode"]
 	updateTitle: (title: string) => void
-	updateRow: (rowId: string, updates: Partial<EstimateRow>) => void
-	updateSection: (
-		sectionId: string,
-		updates: Partial<EstimateSection>
-	) => void
 	handleStartItemEdit: (item: EstimateRow) => void
 	handleStartSectionEdit: (section: EstimateSection) => void
 	handleSaveItem: (updatedItem: EstimateRow) => void
-	handleSaveSection: (updatedSection: Pick<EstimateSection, "title">) => void
+	handleSaveSection: (updates: Partial<EstimateSection>) => void
 	handleClose: () => void
 }
 
-export function useEstimateScreen(): UseEstimateScreenPayload {
-	const { estimate, updateTitle, updateRow, updateSection } =
-		useEstimateContext()
-	const [editMode, setEditMode] = useState<EditMode>(null)
+export function useEstimateScreen(): UseEstimateScreenResult {
+	const {
+		estimate,
+		editMode,
+		updateTitle,
+		updateItem,
+		updateSection,
+		selectItem,
+		selectSection,
+		clearSelection,
+	} = useEstimateContext()
 
 	const handleSaveItem = (updatedItem: EstimateRow) => {
-		if (editMode?.type !== "item") {
-			return
-		}
-
-		updateRow(editMode.data.id, updatedItem)
-		setEditMode(null)
+		updateItem(updatedItem.id, updatedItem)
 	}
 
-	const handleSaveSection = (
-		updatedSection: Pick<EstimateSection, "title">
-	) => {
-		if (editMode?.type !== "section") {
-			return
+	const handleSaveSection = (updates: Partial<EstimateSection>) => {
+		if (editMode?.type === "section") {
+			updateSection(editMode.data.id, updates)
 		}
-
-		updateSection(editMode.data.id, updatedSection)
-		setEditMode(null)
 	}
 
 	const handleClose = () => {
-		setEditMode(null)
-	}
-
-	const handleStartItemEdit = (item: EstimateRow) => {
-		setEditMode({ type: "item", data: item })
-	}
-
-	const handleStartSectionEdit = (section: EstimateSection) => {
-		setEditMode({ type: "section", data: section })
+		clearSelection()
 	}
 
 	return {
 		estimate,
 		editMode,
 		updateTitle,
-		updateRow,
-		updateSection,
-		handleStartItemEdit,
-		handleStartSectionEdit,
+		handleStartItemEdit: selectItem,
+		handleStartSectionEdit: selectSection,
 		handleSaveItem,
 		handleSaveSection,
 		handleClose,
