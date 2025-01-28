@@ -26,8 +26,6 @@ export default function EstimateScreenDesktop() {
 		setSelectedItem(null)
 	}
 
-	console.log({ selectedItem })
-
 	return (
 		<View style={styles.container}>
 			{/* Header */}
