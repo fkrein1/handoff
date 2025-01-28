@@ -1,8 +1,4 @@
-import {
-	Text as RNText,
-	TextProps as RNTextProps,
-	StyleSheet,
-} from "react-native"
+import { Text as RNText, TextProps as RNTextProps } from "react-native"
 import { forwardRef, PropsWithChildren } from "react"
 
 interface TextProps extends RNTextProps {}
