@@ -15,13 +15,13 @@ import {
 	calculateEstimateTotal,
 } from "../common/lib/estimate"
 import { EditItemForm } from "./components/EditItemForm"
-import type { EstimateRow, Estimate } from "@/data"
+import type { EstimateRow } from "@/data"
+import { useEstimateContext } from "./context"
 
 export default function EstimateScreen() {
 	const bottomSheetRef = useRef<BottomSheet>(null)
-	const [estimate, setEstimate] = useState<Estimate>(sampleEstimate)
 	const [selectedItem, setSelectedItem] = useState<EstimateRow | null>(null)
-	const [title, setTitle] = useState(estimate.title)
+	const { estimate, updateTitle, updateRow } = useEstimateContext()
 
 	const handleItemPress = (item: EstimateRow) => {
 		setSelectedItem(item)
@@ -29,15 +29,7 @@ export default function EstimateScreen() {
 	}
 
 	const handleSaveItem = (updatedItem: EstimateRow) => {
-		setEstimate((prev) => ({
-			...prev,
-			sections: prev.sections.map((section) => ({
-				...section,
-				rows: section.rows.map((row) =>
-					row.id === updatedItem.id ? updatedItem : row
-				),
-			})),
-		}))
+		updateRow(updatedItem.id, updatedItem)
 		bottomSheetRef.current?.close()
 		setSelectedItem(null)
 	}
@@ -52,8 +44,8 @@ export default function EstimateScreen() {
 			<ScrollView>
 				<TextInput
 					style={styles.titleInput}
-					value={title}
-					onChangeText={setTitle}
+					value={estimate.title}
+					onChangeText={updateTitle}
 					placeholder="Enter estimate title"
 				/>
 
