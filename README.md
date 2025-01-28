@@ -1,50 +1,106 @@
-# Welcome to your Expo app 👋
+# Handoff Frontend Take-Home Challenge
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app) as a starting point for the frontend engineering take-home challenge.
 
-## Get started
+## Project Structure
+
+```s
+├── app/                  # Main application directory (file-based routing)
+├── assets/               # Static assets (images, fonts)
+├── src/                  # Source code directory
+│   ├── common/           # Shared components and utilities
+│   │   ├── components/   # Reusable UI components
+│   │   ├── lib/          # Utility functions and helpers
+│   │   └── theme/        # Design system tokens and themes
+│   │       ├── tokens/   # Design tokens (colors, typography, spacing)
+│   └── estimate/         # Feature-specific code
+```
+
+## Challenge Overview
+
+This take-home challenge evaluates your ability to build and style a React Native screen using provided design tokens and layout specifications.
+
+### Goals
+
+1. **Screen Implementation**
+
+    - Build a functional React Native screen following the provided Figma design
+    - Implement the screen for both mobile and web platforms
+    - Ensure proper handling of user interactions and data management
+
+2. **Design System Integration**
+
+    - Utilize provided design tokens for consistent styling
+    - Implement both light and dark mode themes
+    - Maintain visual consistency across platforms
+
+3. **Code Quality**
+    - Write clean, modular, and maintainable code
+    - Follow React Native best practices
+    - Implement proper component structure and state management
+
+### Optional Enhancements
+
+-   Implement swipe-to-delete functionality for mobile
+-   Add collapsible sections
+-   Additional animations and interactions
+
+## Getting Started
 
 1. Install dependencies
 
-   ```bash
-   npm install
-   ```
+    ```bash
+    npm install
+    ```
 
 2. Start the app
-
-   ```bash
+    ```bash
     npx expo start
-   ```
+    ```
 
-In the output, you'll find options to open the app in a
+Available development options:
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+-   [Development build](https://docs.expo.dev/develop/development-builds/introduction/)
+-   [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
+-   [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
+-   [Expo Go](https://expo.dev/go)
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+## Development
 
-## Get a fresh project
+1. The project uses file-based routing through the `app` directory
+2. Design tokens are located in `src/common/theme/tokens`
+3. Shared components can be found in `src/common/components`
+4. Feature-specific code is organized in the `src/estimate` directory
 
-When you're ready, run:
+## Resources
 
-```bash
-npm run reset-project
-```
+-   [Figma Design](https://www.figma.com/design/Blk49Bk32ACk3yuDC2Vsq5/Take-Home-Assement---Front-End-Jan-2025?node-id=4044-145&t=4yKjBuOChIiCckTl-11) (Password: `H@ndoff#`)
+-   [Expo Documentation](https://docs.expo.dev/)
+-   [React Native Documentation](https://reactnative.dev/)
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+## Evaluation Criteria
 
-## Learn more
+Your submission will be assessed on:
 
-To learn more about developing your project with Expo, look at the following resources:
+-   Functionality and feature completeness
+-   Design implementation accuracy
+-   Code quality and organization
+-   Cross-platform compatibility
+-   Theme implementation (light/dark mode)
+-   Performance considerations
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+## Submission Guidelines
 
-## Join the community
+1. Fork this repository
+2. Implement the required features
+3. Update this README with:
+    - Any additional setup instructions
+    - Your approach and technical decisions
+    - Areas for potential improvement
+    - Any assumptions made
 
-Join our community of developers creating universal apps.
+## Learn More
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+-   [Expo documentation](https://docs.expo.dev/)
+-   [React Native documentation](https://reactnative.dev/)
+-   [Expo Router documentation](https://docs.expo.dev/router/introduction/)
