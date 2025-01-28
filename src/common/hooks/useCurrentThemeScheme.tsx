@@ -1,7 +1,6 @@
 import { useMemo, useState } from "react"
 import { useColorScheme } from "react-native"
-
-type ThemeScheme = "light" | "dark"
+import { ThemeScheme } from "../theme/types"
 
 const DEFAULT_THEME_SCHEME = "light"
 
