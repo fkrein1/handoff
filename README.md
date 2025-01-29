@@ -5,14 +5,14 @@ This is an [Expo](https://expo.dev) project created with [`create-expo-app`](htt
 ## Project Structure
 
 ```s
-├── app/                  # Main application directory (file-based routing)
-├── assets/               # Static assets (images, fonts)
-├── src/                  # Source code directory
+├── app/                  # Main application (file-based routing)
+├── assets/               # Static assets
+├── src/                  # Source code
 │   ├── common/           # Shared components and utilities
 │   │   ├── components/   # Reusable UI components
 │   │   ├── lib/          # Utility functions and helpers
-│   │   └── theme/        # Design system tokens and themes
-│   │       ├── tokens/   # Design tokens (colors, typography, spacing)
+│   │   └── theme/        # Design system theme
+│   │       ├── tokens/   # Design tokens (colors, spacing)
 │   └── estimate/         # Feature-specific code
 ```
 
