@@ -34,9 +34,3 @@ This is an [Expo](https://expo.dev) project created with [`create-expo-app`](htt
 -   [Figma Design](https://www.figma.com/design/Blk49Bk32ACk3yuDC2Vsq5/Take-Home-Assement---Front-End-Jan-2025?node-id=4044-145&t=4yKjBuOChIiCckTl-11) (Password: `H@ndoff#`)
 -   [Expo Documentation](https://docs.expo.dev/)
 -   [React Native Documentation](https://reactnative.dev/)
-
-## Learn More
-
--   [Expo documentation](https://docs.expo.dev/)
--   [React Native documentation](https://reactnative.dev/)
--   [Expo Router documentation](https://docs.expo.dev/router/introduction/)
