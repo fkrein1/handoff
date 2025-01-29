@@ -17,7 +17,7 @@ export type UnitOfMeasure =
 export interface Supplier {
 	name: string
 	productUrl?: string
-	imageUrl?: string
+	logoUrl?: string
 	sku?: string
 }
 
@@ -99,11 +99,12 @@ export const sampleEstimate: Estimate = {
 					uom: "LF",
 					supplier: {
 						name: "Home Depot",
+						// This URL is just for demo purposes
 						productUrl:
-							"https://www.homedepot.com/p/Hampton-Bay-Shaker-Base-Cabinets/123456",
-						imageUrl:
-							"https://images.homedepot.com/hampton-bay-shaker-base-cabinet.jpg",
-						sku: "HDC-SHK-BC-36",
+							"https://www.homedepot.com/p/Hampton-Bay-Designer-Series-Melvern-Assembled-36x34-5x23-75-in-Base-Kitchen-Cabinet-with-Ball-Bearing-Drawer-Glides-in-White-B36-MELW/305468743",
+						logoUrl:
+							"https://corporate.homedepot.com/sites/default/files/image_gallery/THD_logo.jpg",
+						sku: "305468743",
 					},
 				},
 				{
@@ -114,11 +115,12 @@ export const sampleEstimate: Estimate = {
 					uom: "LF",
 					supplier: {
 						name: "Home Depot",
+						// This URL is just for demo purposes
 						productUrl:
-							"https://www.homedepot.com/p/Hampton-Bay-Shaker-Wall-Cabinets/123457",
-						imageUrl:
-							"https://images.homedepot.com/hampton-bay-shaker-wall-cabinet.jpg",
-						sku: "HDC-SHK-WC-30",
+							"https://www.homedepot.com/p/Hampton-Bay-Designer-Series-Melvern-Assembled-30x30x11-75-in-Wall-Kitchen-Cabinet-in-White-W3030-MELW/305468086",
+						logoUrl:
+							"https://corporate.homedepot.com/sites/default/files/image_gallery/THD_logo.jpg",
+						sku: "305468086",
 					},
 				},
 				{
@@ -127,14 +129,6 @@ export const sampleEstimate: Estimate = {
 					price: 5.0,
 					quantity: 24,
 					uom: "EA",
-					supplier: {
-						name: "Build.com",
-						productUrl:
-							"https://www.build.com/product/black-cabinet-pulls/123458",
-						imageUrl:
-							"https://images.build.com/matte-black-cabinet-pulls.jpg",
-						sku: "BCH-BLK-5IN",
-					},
 				},
 			],
 		},
@@ -148,14 +142,6 @@ export const sampleEstimate: Estimate = {
 					price: 75.0,
 					quantity: 35,
 					uom: "SF",
-					supplier: {
-						name: "Stone World",
-						productUrl:
-							"https://www.stoneworld.com/granite/luna-pearl",
-						imageUrl:
-							"https://images.stoneworld.com/luna-pearl-granite.jpg",
-						sku: "GRN-LP-2CM",
-					},
 				},
 				{
 					id: "ct2",
@@ -176,14 +162,6 @@ export const sampleEstimate: Estimate = {
 					price: 12.0,
 					quantity: 120,
 					uom: "SF",
-					supplier: {
-						name: "Floor & Decor",
-						productUrl:
-							"https://www.flooranddecor.com/porcelain-tile/carrara-look",
-						imageUrl:
-							"https://images.flooranddecor.com/carrara-porcelain-tile.jpg",
-						sku: "FD-PT-CAR-12x24",
-					},
 				},
 				{
 					id: "f2",
