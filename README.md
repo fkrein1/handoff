@@ -65,39 +65,11 @@ Available development options:
 -   [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
 -   [Expo Go](https://expo.dev/go)
 
-## Development
-
-1. The project uses file-based routing through the `app` directory
-2. Design tokens are located in `src/common/theme/tokens`
-3. Shared components can be found in `src/common/components`
-4. Feature-specific code is organized in the `src/estimate` directory
-
 ## Resources
 
 -   [Figma Design](https://www.figma.com/design/Blk49Bk32ACk3yuDC2Vsq5/Take-Home-Assement---Front-End-Jan-2025?node-id=4044-145&t=4yKjBuOChIiCckTl-11) (Password: `H@ndoff#`)
 -   [Expo Documentation](https://docs.expo.dev/)
 -   [React Native Documentation](https://reactnative.dev/)
-
-## Evaluation Criteria
-
-Your submission will be assessed on:
-
--   Functionality and feature completeness
--   Design implementation accuracy
--   Code quality and organization
--   Cross-platform compatibility
--   Theme implementation (light/dark mode)
--   Performance considerations
-
-## Submission Guidelines
-
-1. Fork this repository
-2. Implement the required features
-3. Update this README with:
-    - Any additional setup instructions
-    - Your approach and technical decisions
-    - Areas for potential improvement
-    - Any assumptions made
 
 ## Learn More
 
