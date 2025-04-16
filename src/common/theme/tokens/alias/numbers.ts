@@ -37,7 +37,7 @@ type OutlineHeight = Record<OutlineHeightVariant, number>;
 
 type Spacing = Record<TShirtSize, number>;
 
-interface NumbersAliasTokens {
+export interface NumbersAliasTokens {
   sizing: {
     icon: IconSize;
     container: ContainerSize;
