@@ -2,16 +2,17 @@ import { StyleSheet, ViewStyle, TextStyle, ImageStyle } from "react-native";
 
 import { CustomFonts, customFonts } from "./fonts";
 import { ColorMode, getColors } from "./tokens/alias/colors";
-import { NumbersAliasTokens, numbersAliasTokens } from "./tokens/alias/numbers";
+import { numbersAliasTokens } from "./tokens/alias/numbers";
 import { ThemeScheme } from "./types";
 
-type NamedStyles<T> = { [P in keyof T]: ViewStyle | TextStyle | ImageStyle };
+type StyleProps = ViewStyle | TextStyle | ImageStyle;
+type NamedStyles<T> = { [P in keyof T]: StyleProps };
 
 const themeTokensCache = new Map<
   ThemeScheme,
   {
     colors: ColorMode;
-    numbers: NumbersAliasTokens;
+    numbers: typeof numbersAliasTokens;
     fonts: CustomFonts;
   }
 >();
@@ -27,24 +28,25 @@ function getThemeTokens(theme: ThemeScheme) {
   return themeTokensCache.get(theme)!;
 }
 
+type ThemeTokens = {
+  colors: ColorMode;
+  numbers: typeof numbersAliasTokens;
+  fonts: CustomFonts;
+};
+
 const styleSheetCache = new WeakMap<Function, Map<ThemeScheme, any>>();
 
-export function createThemedStyleSheet<T extends NamedStyles<T>>(
-  theme: ThemeScheme,
-  styles: (tokens: {
-    colors: ColorMode;
-    numbers: NumbersAliasTokens;
-    fonts: CustomFonts;
-  }) => T,
-): T {
-  let themeMap = styleSheetCache.get(styles);
+export function createThemedStyleSheet<
+  T extends NamedStyles<T> | NamedStyles<any>,
+>(theme: ThemeScheme, stylesFn: (tokens: ThemeTokens) => T): T {
+  let themeMap = styleSheetCache.get(stylesFn);
   if (!themeMap) {
     themeMap = new Map();
-    styleSheetCache.set(styles, themeMap);
+    styleSheetCache.set(stylesFn, themeMap);
   }
   if (!themeMap.has(theme)) {
     const tokens = getThemeTokens(theme);
-    themeMap.set(theme, StyleSheet.create(styles(tokens)));
+    themeMap.set(theme, StyleSheet.create(stylesFn(tokens)));
   }
-  return themeMap.get(theme)!;
+  return themeMap.get(theme);
 }
