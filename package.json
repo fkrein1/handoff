@@ -55,6 +55,7 @@
     "@types/react-test-renderer": "^18.3.0",
     "eslint": "^9.0.0",
     "eslint-config-expo": "~9.0.2",
+    "eslint-config-flat-gitignore": "^2.1.0",
     "eslint-config-prettier": "^10.1.2",
     "eslint-plugin-prettier": "^5.2.6",
     "eslint-plugin-react-compiler": "^19.0.0-beta-ebf51a3-20250411",

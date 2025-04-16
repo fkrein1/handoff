@@ -1,9 +1,11 @@
-const { defineConfig } = require("eslint/config");
-const expoConfig = require("eslint-config-expo/flat");
-const eslintPluginPrettierRecommended = require("eslint-plugin-prettier/recommended");
-const reactCompiler = require("eslint-plugin-react-compiler");
+import { defineConfig } from "eslint/config";
+import expoConfig from "eslint-config-expo/flat.js";
+import gitignore from "eslint-config-flat-gitignore";
+import eslintPluginPrettierRecommended from "eslint-plugin-prettier/recommended";
+import reactCompiler from "eslint-plugin-react-compiler";
 
-module.exports = defineConfig([
+export default defineConfig([
+  gitignore(),
   expoConfig,
   eslintPluginPrettierRecommended,
   {
