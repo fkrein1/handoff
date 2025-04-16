@@ -19,7 +19,8 @@
     { "rule": "arrow-spacing", "severity": "off" },
     { "rule": "object-curly-spacing", "severity": "off" },
     { "rule": "array-bracket-spacing", "severity": "off" },
-    { "rule": "import/order", "severity": "off" }
+    { "rule": "import/order", "severity": "off" },
+    { "rule": "indent", "severity": "off" }
   ],
 
   "eslint.validate": [
