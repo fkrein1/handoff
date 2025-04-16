@@ -1,13 +1,16 @@
-import { View, StyleSheet, Pressable } from "react-native"
-import { Text } from "../common/components/Text"
-import type { EstimateRow, EstimateSection } from "@/data"
+import { View, StyleSheet, Pressable } from 'react-native';
+
+import type { EstimateRow, EstimateSection } from '@/data';
+
+import { Text } from '../common/components/Text';
+import { TextField } from '../common/components/TextField';
 import {
 	calculateSectionTotal,
 	calculateEstimateTotal,
-} from "../common/lib/estimate"
-import { EditForm } from "./EditForm"
-import { useEstimateScreen } from "./useEstimateScreen"
-import { TextField } from "../common/components/TextField"
+} from '../common/lib/estimate';
+
+import { EditForm } from './EditForm';
+import { useEstimateScreen } from './useEstimateScreen';
 
 export default function EstimateScreenDesktop() {
 	const {
@@ -19,7 +22,7 @@ export default function EstimateScreenDesktop() {
 		handleSaveItem,
 		handleSaveSection,
 		handleStopEdit,
-	} = useEstimateScreen()
+	} = useEstimateScreen();
 
 	const renderEditForm = () => {
 		if (!editMode) {
@@ -27,7 +30,7 @@ export default function EstimateScreenDesktop() {
 				<View style={styles.noSelection}>
 					<Text>Select an item or section to edit</Text>
 				</View>
-			)
+			);
 		}
 
 		return (
@@ -36,14 +39,14 @@ export default function EstimateScreenDesktop() {
 				mode={editMode.type}
 				data={editMode.data}
 				onSave={
-					editMode.type === "item"
+					editMode.type === 'item'
 						? handleSaveItem
 						: handleSaveSection
 				}
 				onClose={handleStopEdit}
 			/>
-		)
-	}
+		);
+	};
 
 	return (
 		<View style={styles.container}>
@@ -66,7 +69,7 @@ export default function EstimateScreenDesktop() {
 							<Pressable
 								style={[
 									styles.sectionHeader,
-									editMode?.type === "section" &&
+									editMode?.type === 'section' &&
 										editMode.data.id === section.id &&
 										styles.selectedSection,
 								]}
@@ -83,7 +86,7 @@ export default function EstimateScreenDesktop() {
 									key={row.id}
 									style={[
 										styles.tableRow,
-										editMode?.type === "item" &&
+										editMode?.type === 'item' &&
 											editMode.data.id === row.id &&
 											styles.selectedRow,
 									]}
@@ -97,7 +100,7 @@ export default function EstimateScreenDesktop() {
 											<Text
 												style={styles.rowPriceDetails}
 											>
-												${row.price.toFixed(2)} ×{" "}
+												${row.price.toFixed(2)} ×{' '}
 												{row.quantity} {row.uom}
 											</Text>
 										</View>
@@ -122,30 +125,30 @@ export default function EstimateScreenDesktop() {
 				<View style={styles.formContainer}>{renderEditForm()}</View>
 			</View>
 		</View>
-	)
+	);
 }
 
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: "#f5f5f5",
+		backgroundColor: '#f5f5f5',
 	},
 	header: {
 		padding: 16,
 		borderBottomWidth: 1,
-		borderBottomColor: "#e0e0e0",
-		backgroundColor: "#ffffff",
+		borderBottomColor: '#e0e0e0',
+		backgroundColor: '#ffffff',
 	},
 	titleInput: {
 		fontSize: 24,
-		fontWeight: "bold",
+		fontWeight: 'bold',
 		padding: 12,
 		borderRadius: 8,
-		backgroundColor: "#f5f5f5",
+		backgroundColor: '#f5f5f5',
 	},
 	content: {
 		flex: 1,
-		flexDirection: "row",
+		flexDirection: 'row',
 	},
 	tableContainer: {
 		flex: 2,
@@ -154,41 +157,41 @@ const styles = StyleSheet.create({
 	formContainer: {
 		flex: 1,
 		borderLeftWidth: 1,
-		borderLeftColor: "#e0e0e0",
-		backgroundColor: "#ffffff",
+		borderLeftColor: '#e0e0e0',
+		backgroundColor: '#ffffff',
 		padding: 16,
 	},
 	section: {
-		backgroundColor: "#ffffff",
+		backgroundColor: '#ffffff',
 		borderRadius: 8,
 		marginBottom: 16,
-		overflow: "hidden",
-		shadowColor: "#000",
+		overflow: 'hidden',
+		shadowColor: '#000',
 		shadowOffset: { width: 0, height: 2 },
 		shadowOpacity: 0.1,
 		shadowRadius: 4,
 		elevation: 3,
 	},
 	selectedSection: {
-		backgroundColor: "#e6f0ff",
+		backgroundColor: '#e6f0ff',
 	},
 	sectionHeader: {
-		flexDirection: "row",
-		justifyContent: "space-between",
+		flexDirection: 'row',
+		justifyContent: 'space-between',
 		padding: 16,
-		backgroundColor: "#f8f8f8",
+		backgroundColor: '#f8f8f8',
 		borderBottomWidth: 1,
-		borderBottomColor: "#e0e0e0",
+		borderBottomColor: '#e0e0e0',
 	},
 	tableRow: {
-		flexDirection: "row",
+		flexDirection: 'row',
 		padding: 12,
 		borderBottomWidth: 1,
-		borderBottomColor: "#f0f0f0",
-		cursor: "pointer",
+		borderBottomColor: '#f0f0f0',
+		cursor: 'pointer',
 	},
 	selectedRow: {
-		backgroundColor: "#f0f7ff",
+		backgroundColor: '#f0f7ff',
 	},
 	rowLeftContent: {
 		flex: 1,
@@ -205,13 +208,13 @@ const styles = StyleSheet.create({
 		fontSize: 14,
 	},
 	estimateTotal: {
-		flexDirection: "row",
-		justifyContent: "space-between",
+		flexDirection: 'row',
+		justifyContent: 'space-between',
 		padding: 16,
-		backgroundColor: "#ffffff",
+		backgroundColor: '#ffffff',
 		borderRadius: 8,
 		marginTop: 8,
-		shadowColor: "#000",
+		shadowColor: '#000',
 		shadowOffset: { width: 0, height: 2 },
 		shadowOpacity: 0.1,
 		shadowRadius: 4,
@@ -219,7 +222,7 @@ const styles = StyleSheet.create({
 	},
 	noSelection: {
 		flex: 1,
-		justifyContent: "center",
-		alignItems: "center",
+		justifyContent: 'center',
+		alignItems: 'center',
 	},
-})
+});

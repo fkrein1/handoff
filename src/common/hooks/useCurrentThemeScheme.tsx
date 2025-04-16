@@ -1,8 +1,9 @@
-import { useMemo, useState } from "react"
-import { useColorScheme } from "react-native"
-import { ThemeScheme } from "../theme/types"
+import { useMemo, useState } from 'react';
+import { useColorScheme } from 'react-native';
 
-const DEFAULT_THEME_SCHEME = "light"
+import { ThemeScheme } from '../theme/types';
+
+const DEFAULT_THEME_SCHEME = 'light';
 
 interface UseCurrentThemeSchemePayload {
 	value: ThemeScheme
@@ -16,20 +17,20 @@ interface UseCurrentThemeSchemeProps {
 export function useCurrentThemeScheme(
 	props?: UseCurrentThemeSchemeProps
 ): UseCurrentThemeSchemePayload {
-	const deviceThemeScheme = useColorScheme()
+	const deviceThemeScheme = useColorScheme();
 
 	const [themeScheme, setThemeScheme] =
-		useState<ThemeScheme>(DEFAULT_THEME_SCHEME)
+		useState<ThemeScheme>(DEFAULT_THEME_SCHEME);
 
 	return useMemo(() => {
-		const systemThemeScheme = deviceThemeScheme ?? DEFAULT_THEME_SCHEME
+		const systemThemeScheme = deviceThemeScheme ?? DEFAULT_THEME_SCHEME;
 
 		const value =
-			props?.preferSystem === true ? systemThemeScheme : themeScheme
+			props?.preferSystem === true ? systemThemeScheme : themeScheme;
 
 		return {
 			value,
 			setValue: setThemeScheme,
-		}
-	}, [deviceThemeScheme, props?.preferSystem, setThemeScheme, themeScheme])
+		};
+	}, [deviceThemeScheme, props?.preferSystem, setThemeScheme, themeScheme]);
 }

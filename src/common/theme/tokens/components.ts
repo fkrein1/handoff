@@ -1,7 +1,8 @@
-import { ThemeScheme } from "../types"
-import { numbersAliasTokens } from "./alias/numbers"
-import { colorsBaseTokens } from "./base/colors"
-import { numbersBaseTokens } from "./base/numbers"
+import { ThemeScheme } from '../types';
+
+import { numbersAliasTokens } from './alias/numbers';
+import { colorsBaseTokens } from './base/colors';
+import { numbersBaseTokens } from './base/numbers';
 
 interface ButtonBackground {
 	idle: string
@@ -9,7 +10,7 @@ interface ButtonBackground {
 	pressed: string
 }
 
-type DestructiveButtonBackground = Omit<ButtonBackground, "idle">
+type DestructiveButtonBackground = Omit<ButtonBackground, 'idle'>
 
 interface WashedBadgeColors {
 	positive: string
@@ -26,7 +27,7 @@ interface WashedBadgeColors {
 
 type SolidBadgeColors = Pick<
 	WashedBadgeColors,
-	"positive" | "negative" | "attention" | "neutral"
+	'positive' | 'negative' | 'attention' | 'neutral'
 >
 
 interface ColorMode {
@@ -167,7 +168,7 @@ const light = {
 			},
 		},
 	},
-} as const satisfies ColorMode
+} as const satisfies ColorMode;
 
 const dark = {
 	button: {
@@ -278,15 +279,15 @@ const dark = {
 			},
 		},
 	},
-} as const satisfies ColorMode
+} as const satisfies ColorMode;
 
 const colorsComponentTokens = {
 	light,
 	dark,
-} as const satisfies ColorsComponentTokens
+} as const satisfies ColorsComponentTokens;
 
 export function getComponentTokens(themeScheme: ThemeScheme) {
-	return themeScheme === "dark"
+	return themeScheme === 'dark'
 		? colorsComponentTokens.dark
-		: colorsComponentTokens.light
+		: colorsComponentTokens.light;
 }

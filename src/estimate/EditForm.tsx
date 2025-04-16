@@ -1,52 +1,53 @@
-import React from "react"
-import { View, StyleSheet } from "react-native"
-import { Text } from "../common/components/Text"
-import { Button } from "../common/components/Button"
-import { EstimateRow, EstimateSection, UnitOfMeasure } from "@/data"
-import { useState } from "react"
-import { TextField } from "../common/components/TextField"
+import React, { useState } from 'react';
+import { View, StyleSheet } from 'react-native';
+
+import { EstimateRow, EstimateSection, UnitOfMeasure } from '@/data';
+
+import { Button } from '../common/components/Button';
+import { Text } from '../common/components/Text';
+import { TextField } from '../common/components/TextField';
 
 type EditFormProps = {
-	mode: "item" | "section"
+	mode: 'item' | 'section'
 	data: EstimateRow | EstimateSection
 	onSave: (updates: any) => void
 	onClose: () => void
 }
 
 function isEstimateRow(data: any): data is EstimateRow {
-	return "price" in data && "quantity" in data && "uom" in data
+	return 'price' in data && 'quantity' in data && 'uom' in data;
 }
 
 export function EditForm({ mode, data, onSave, onClose }: EditFormProps) {
-	const [title, setTitle] = useState(data.title)
+	const [title, setTitle] = useState(data.title);
 	const [price, setPrice] = useState(
-		isEstimateRow(data) ? data.price.toString() : ""
-	)
+		isEstimateRow(data) ? data.price.toString() : ''
+	);
 	const [quantity, setQuantity] = useState(
-		isEstimateRow(data) ? data.quantity.toString() : ""
-	)
+		isEstimateRow(data) ? data.quantity.toString() : ''
+	);
 	const [uom, setUom] = useState<UnitOfMeasure>(
-		isEstimateRow(data) ? data.uom : "EA"
-	)
+		isEstimateRow(data) ? data.uom : 'EA'
+	);
 
 	const handleSave = () => {
-		if (mode === "item") {
+		if (mode === 'item') {
 			onSave({
 				...data,
 				title,
 				price: parseFloat(price),
 				quantity: parseFloat(quantity),
 				uom,
-			})
+			});
 		} else {
-			onSave({ title })
+			onSave({ title });
 		}
-	}
+	};
 
 	return (
 		<View style={styles.container}>
 			<Text style={styles.header}>
-				Edit {mode === "item" ? "Item" : "Section"}
+				Edit {mode === 'item' ? 'Item' : 'Section'}
 			</Text>
 
 			<View style={styles.field}>
@@ -59,7 +60,7 @@ export function EditForm({ mode, data, onSave, onClose }: EditFormProps) {
 				/>
 			</View>
 
-			{mode === "item" && (
+			{mode === 'item' && (
 				<>
 					<View style={styles.field}>
 						<Text>Price</Text>
@@ -97,7 +98,7 @@ export function EditForm({ mode, data, onSave, onClose }: EditFormProps) {
 				</Button>
 			</View>
 		</View>
-	)
+	);
 }
 
 const styles = StyleSheet.create({
@@ -112,18 +113,18 @@ const styles = StyleSheet.create({
 	},
 	input: {
 		borderWidth: 1,
-		borderColor: "#ccc",
+		borderColor: '#ccc',
 		borderRadius: 8,
 		padding: 12,
 		marginTop: 4,
 	},
 	formActions: {
-		flexDirection: "row",
-		justifyContent: "flex-end",
+		flexDirection: 'row',
+		justifyContent: 'flex-end',
 		gap: 8,
 		marginTop: 24,
 	},
 	button: {
 		minWidth: 100,
 	},
-})
+});

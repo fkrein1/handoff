@@ -1,15 +1,15 @@
-import { createContext, useContext, useMemo } from "react"
-import type { Estimate, EstimateRow, EstimateSection } from "@/data"
-import { PropsWithChildren, useState } from "react"
-import { sampleEstimate } from "@/data"
+import { createContext, useContext, useMemo, PropsWithChildren, useState } from 'react';
+
+import type { Estimate, EstimateRow, EstimateSection } from '@/data';
+import { sampleEstimate } from '@/data';
 
 export type EditMode =
 	| {
-			type: "item"
+			type: 'item'
 			data: EstimateRow
 	  }
 	| {
-			type: "section"
+			type: 'section'
 			data: EstimateSection
 	  }
 	| null
@@ -28,19 +28,19 @@ interface EstimateContextValue {
 	clearSelection: () => void
 }
 
-export const EstimateContext = createContext<EstimateContextValue | null>(null)
+export const EstimateContext = createContext<EstimateContextValue | null>(null);
 
 export function EstimateProvider({ children }: PropsWithChildren) {
-	const [estimate, setEstimate] = useState<Estimate>(sampleEstimate)
-	const [editMode, setEditMode] = useState<EditMode>(null)
+	const [estimate, setEstimate] = useState<Estimate>(sampleEstimate);
+	const [editMode, setEditMode] = useState<EditMode>(null);
 
 	const updateTitle = (title: string) => {
 		setEstimate((prev) => ({
 			...prev,
 			title,
 			updatedAt: new Date(),
-		}))
-	}
+		}));
+	};
 
 	const updateSection = (
 		sectionId: string,
@@ -54,9 +54,9 @@ export function EstimateProvider({ children }: PropsWithChildren) {
 					? { ...section, ...updateSection }
 					: section
 			),
-		}))
-		setEditMode(null)
-	}
+		}));
+		setEditMode(null);
+	};
 
 	const updateItem = (rowId: string, updateItem: Partial<EstimateRow>) => {
 		setEstimate((prev) => ({
@@ -68,21 +68,21 @@ export function EstimateProvider({ children }: PropsWithChildren) {
 					row.id === rowId ? { ...row, ...updateItem } : row
 				),
 			})),
-		}))
-		setEditMode(null)
-	}
+		}));
+		setEditMode(null);
+	};
 
 	const selectItem = (item: EstimateRow) => {
-		setEditMode({ type: "item", data: item })
-	}
+		setEditMode({ type: 'item', data: item });
+	};
 
 	const selectSection = (section: EstimateSection) => {
-		setEditMode({ type: "section", data: section })
-	}
+		setEditMode({ type: 'section', data: section });
+	};
 
 	const clearSelection = () => {
-		setEditMode(null)
-	}
+		setEditMode(null);
+	};
 
 	const value = useMemo(
 		() => ({
@@ -105,19 +105,19 @@ export function EstimateProvider({ children }: PropsWithChildren) {
 			selectSection,
 			clearSelection,
 		]
-	)
+	);
 
 	return (
 		<EstimateContext.Provider value={value}>
 			{children}
 		</EstimateContext.Provider>
-	)
+	);
 }
 
 export function useEstimateContext() {
-	const context = useContext(EstimateContext)
+	const context = useContext(EstimateContext);
 	if (!context) {
-		throw new Error("useEstimate must be used within an EstimateProvider")
+		throw new Error('useEstimate must be used within an EstimateProvider');
 	}
-	return context
+	return context;
 }

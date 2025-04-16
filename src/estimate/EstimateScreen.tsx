@@ -1,19 +1,22 @@
-import { View, StyleSheet, ScrollView, Pressable } from "react-native"
-import { Text } from "../common/components/Text"
-import { BottomSheet } from "../common/components/BottomSheet"
-import { useRef } from "react"
-import { BottomSheetView } from "@gorhom/bottom-sheet"
+import { BottomSheetView } from '@gorhom/bottom-sheet';
+import { useRef } from 'react';
+import { View, StyleSheet, ScrollView, Pressable } from 'react-native';
+
+import type { EstimateRow, EstimateSection } from '@/data';
+
+import { BottomSheet } from '../common/components/BottomSheet';
+import { Text } from '../common/components/Text';
+import { TextField } from '../common/components/TextField';
 import {
 	calculateSectionTotal,
 	calculateEstimateTotal,
-} from "../common/lib/estimate"
-import type { EstimateRow, EstimateSection } from "@/data"
-import { EditForm } from "./EditForm"
-import { useEstimateScreen } from "./useEstimateScreen"
-import { TextField } from "../common/components/TextField"
+} from '../common/lib/estimate';
+
+import { EditForm } from './EditForm';
+import { useEstimateScreen } from './useEstimateScreen';
 
 export default function EstimateScreen() {
-	const bottomSheetRef = useRef<BottomSheet>(null)
+	const bottomSheetRef = useRef<BottomSheet>(null);
 
 	const {
 		estimate,
@@ -24,22 +27,22 @@ export default function EstimateScreen() {
 		handleSaveItem,
 		handleSaveSection,
 		handleStopEdit,
-	} = useEstimateScreen()
+	} = useEstimateScreen();
 
 	const handleSectionPress = (section: EstimateSection) => {
-		handleStartSectionEdit(section)
-		bottomSheetRef.current?.expand()
-	}
+		handleStartSectionEdit(section);
+		bottomSheetRef.current?.expand();
+	};
 
 	const handleItemPress = (item: EstimateRow) => {
-		handleStartItemEdit(item)
-		bottomSheetRef.current?.expand()
-	}
+		handleStartItemEdit(item);
+		bottomSheetRef.current?.expand();
+	};
 
 	const handleCloseBottomSheet = () => {
-		bottomSheetRef.current?.close()
-		handleStopEdit()
-	}
+		bottomSheetRef.current?.close();
+		handleStopEdit();
+	};
 
 	return (
 		<View style={styles.container}>
@@ -72,7 +75,7 @@ export default function EstimateScreen() {
 										{row.title}
 									</Text>
 									<Text style={styles.rowPriceDetails}>
-										${row.price.toFixed(2)} × {row.quantity}{" "}
+										${row.price.toFixed(2)} × {row.quantity}{' '}
 										{row.uom}
 									</Text>
 								</View>
@@ -92,7 +95,7 @@ export default function EstimateScreen() {
 			<BottomSheet
 				ref={bottomSheetRef}
 				enablePanDownToClose
-				snapPoints={["50%"]}
+				snapPoints={['50%']}
 				index={-1}
 			>
 				<BottomSheetView>
@@ -102,7 +105,7 @@ export default function EstimateScreen() {
 							mode={editMode.type}
 							data={editMode.data}
 							onSave={
-								editMode.type === "item"
+								editMode.type === 'item'
 									? handleSaveItem
 									: handleSaveSection
 							}
@@ -112,39 +115,39 @@ export default function EstimateScreen() {
 				</BottomSheetView>
 			</BottomSheet>
 		</View>
-	)
+	);
 }
 
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: "#f5f5f5",
+		backgroundColor: '#f5f5f5',
 	},
 	titleInput: {
 		fontSize: 24,
-		fontWeight: "bold",
+		fontWeight: 'bold',
 		padding: 16,
-		backgroundColor: "#fff",
+		backgroundColor: '#fff',
 	},
 	section: {
 		marginBottom: 16,
-		backgroundColor: "#fff",
+		backgroundColor: '#fff',
 	},
 	sectionHeader: {
-		flexDirection: "row",
-		justifyContent: "space-between",
+		flexDirection: 'row',
+		justifyContent: 'space-between',
 		padding: 16,
-		backgroundColor: "#f5f5f5",
+		backgroundColor: '#f5f5f5',
 		borderBottomWidth: 1,
-		borderBottomColor: "#e0e0e0",
+		borderBottomColor: '#e0e0e0',
 	},
 	row: {
-		flexDirection: "row",
+		flexDirection: 'row',
 		padding: 16,
 		borderBottomWidth: 1,
-		borderBottomColor: "#e0e0e0",
-		justifyContent: "space-between",
-		alignItems: "center",
+		borderBottomColor: '#e0e0e0',
+		justifyContent: 'space-between',
+		alignItems: 'center',
 	},
 	rowLeftContent: {
 		flex: 1,
@@ -153,18 +156,18 @@ const styles = StyleSheet.create({
 	rowTitle: {
 		fontSize: 16,
 		marginBottom: 4,
-		fontWeight: "500",
+		fontWeight: '500',
 	},
 	rowPriceDetails: {
 		fontSize: 14,
 	},
 	estimateTotal: {
-		flexDirection: "row",
-		justifyContent: "space-between",
+		flexDirection: 'row',
+		justifyContent: 'space-between',
 		padding: 16,
-		backgroundColor: "#fff",
+		backgroundColor: '#fff',
 		borderTopWidth: 1,
-		borderTopColor: "#e0e0e0",
+		borderTopColor: '#e0e0e0',
 		marginTop: 8,
 	},
-})
+});

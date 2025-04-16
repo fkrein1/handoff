@@ -1,5 +1,6 @@
-import type { EstimateRow, EstimateSection } from "@/data"
-import { useEstimateContext } from "./context"
+import type { EstimateRow, EstimateSection } from '@/data';
+
+import { useEstimateContext } from './context';
 
 export function useEstimateScreen() {
 	const {
@@ -11,23 +12,23 @@ export function useEstimateScreen() {
 		selectItem,
 		selectSection,
 		clearSelection,
-	} = useEstimateContext()
+	} = useEstimateContext();
 
 	const handleSaveItem = (updatedItem: EstimateRow) => {
-		if (editMode?.type !== "item") {
-			return
+		if (editMode?.type !== 'item') {
+			return;
 		}
 
-		updateItem(updatedItem.id, updatedItem)
-	}
+		updateItem(updatedItem.id, updatedItem);
+	};
 
 	const handleSaveSection = (updates: Partial<EstimateSection>) => {
-		if (editMode?.type !== "section") {
-			return
+		if (editMode?.type !== 'section') {
+			return;
 		}
 
-		updateSection(editMode.data.id, updates)
-	}
+		updateSection(editMode.data.id, updates);
+	};
 
 	return {
 		estimate,
@@ -38,5 +39,5 @@ export function useEstimateScreen() {
 		handleSaveItem,
 		handleSaveSection,
 		handleStopEdit: clearSelection,
-	}
+	};
 }

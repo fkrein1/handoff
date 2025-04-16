@@ -1,17 +1,18 @@
-import { Pressable, StyleSheet, PressableProps, View } from "react-native"
-import { Text } from "./Text"
-import { forwardRef, PropsWithChildren, useState } from "react"
+import { forwardRef, PropsWithChildren, useState } from 'react';
+import { Pressable, StyleSheet, PressableProps, View } from 'react-native';
+
+import { Text } from './Text';
 
 interface ButtonProps extends PressableProps {
-	variant?: "primary" | "secondary"
+	variant?: 'primary' | 'secondary'
 }
 
 export const Button = forwardRef<View, PropsWithChildren<ButtonProps>>(
 	function Button(
-		{ variant = "primary", style, disabled, children, ...props },
+		{ variant = 'primary', style, disabled, children, ...props },
 		ref
 	) {
-		const [hovered, setHovered] = useState(false)
+		const [hovered, setHovered] = useState(false);
 
 		return (
 			<Pressable
@@ -29,13 +30,13 @@ export const Button = forwardRef<View, PropsWithChildren<ButtonProps>>(
 			>
 				<Text style={styles.text}>{children}</Text>
 			</Pressable>
-		)
+		);
 	}
-)
+);
 
 const styles = StyleSheet.create({
 	button: {},
 	disabled: {},
 	text: {},
 	hovered: {},
-})
+});
