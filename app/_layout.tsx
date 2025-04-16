@@ -1,5 +1,6 @@
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
+import { useEffect } from "react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -12,8 +13,14 @@ import { getColors } from "@/src/common/theme/tokens/alias/colors";
 SplashScreen.preventAutoHideAsync();
 
 function Navigation() {
-  const theme = useThemeScheme();
-  const colors = getColors(theme.value);
+  const { theme, isReady } = useThemeScheme();
+  const colors = getColors(theme);
+
+  useEffect(() => {
+    if (isReady) SplashScreen.hide();
+  }, [isReady]);
+
+  if (!isReady) return null;
 
   return (
     <SafeAreaView
@@ -25,10 +32,8 @@ function Navigation() {
 }
 
 export default function RootLayout() {
-  const onLayoutRootView = () => SplashScreen.hide();
-
   return (
-    <GestureHandlerRootView style={{ flex: 1 }} onLayout={onLayoutRootView}>
+    <GestureHandlerRootView style={{ flex: 1 }}>
       <ThemeProvider>
         <Navigation />
       </ThemeProvider>
