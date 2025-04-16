@@ -7,20 +7,8 @@
   },
 
   "eslint.rules.customizations": [
-    { "rule": "*quotes", "severity": "off" },
-    { "rule": "*semi", "severity": "off" },
-    { "rule": "no-multiple-empty-lines", "severity": "off" },
-    { "rule": "no-trailing-spaces", "severity": "off" },
-    { "rule": "comma-spacing", "severity": "off" },
-    { "rule": "keyword-spacing", "severity": "off" },
-    { "rule": "space-before-blocks", "severity": "off" },
-    { "rule": "space-infix-ops", "severity": "off" },
-    { "rule": "block-spacing", "severity": "off" },
-    { "rule": "arrow-spacing", "severity": "off" },
-    { "rule": "object-curly-spacing", "severity": "off" },
-    { "rule": "array-bracket-spacing", "severity": "off" },
+    { "rule": "prettier/prettier", "severity": "off" },
     { "rule": "import/order", "severity": "off" },
-    { "rule": "indent", "severity": "off" }
   ],
 
   "eslint.validate": [
@@ -42,5 +30,8 @@
     "scss",
     "pcss",
     "postcss"
+  ],
+  "cSpell.words": [
+    "Pressable"
   ]
 }

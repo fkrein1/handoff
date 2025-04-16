@@ -1,10 +1,10 @@
-import { EstimateProvider } from '@/src/estimate/context';
-import EstimateScreen from '@/src/estimate/EstimateScreen';
+import { EstimateProvider } from "@/src/estimate/context";
+import EstimateScreen from "@/src/estimate/EstimateScreen";
 
 export default function Index() {
-	return (
-		<EstimateProvider>
-			<EstimateScreen />
-		</EstimateProvider>
-	);
+  return (
+    <EstimateProvider>
+      <EstimateScreen />
+    </EstimateProvider>
+  );
 }
