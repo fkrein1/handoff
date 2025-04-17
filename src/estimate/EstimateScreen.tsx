@@ -1,14 +1,12 @@
-import Entypo from "@expo/vector-icons/Entypo";
-import { BottomSheetView } from "@gorhom/bottom-sheet";
+import { BottomSheetBackdrop, BottomSheetView } from "@gorhom/bottom-sheet";
 import { useRef } from "react";
-import { View, Pressable, Button, SectionList } from "react-native";
+import { View, Pressable, SectionList } from "react-native";
 
 import type { EstimateRow, EstimateSection } from "@/data";
 
 import { BottomSheet } from "../common/components/BottomSheet";
 import { Text } from "../common/components/Text";
 import { TextField } from "../common/components/TextField";
-import { ThemeSwitch } from "../common/components/ThemeSwith";
 import { useThemeScheme } from "../common/hooks/useCurrentThemeScheme";
 import {
   calculateSectionTotal,
@@ -19,7 +17,10 @@ import { createThemedStyleSheet } from "../common/theme/themedStyles";
 import { numbersAliasTokens } from "../common/theme/tokens/alias/numbers";
 import { ThemeScheme } from "../common/theme/types";
 
-import { EditForm } from "./EditForm";
+import { Draft } from "./components/Draft";
+import { EditForm } from "./components/EditForm";
+import { EstimateSectionRow } from "./components/EstimateSectionRow";
+import { ThemeSwitch } from "./components/ThemeSwitch";
 import { useEstimateScreen } from "./useEstimateScreen";
 
 export default function EstimateScreen() {
@@ -55,7 +56,9 @@ export default function EstimateScreen() {
 
   return (
     <View style={styles.container}>
-      <ThemeSwitch />
+      <View style={styles.switch}>
+        <ThemeSwitch />
+      </View>
       <SectionList
         sections={estimate.sections.map((section) => ({
           ...section,
@@ -76,13 +79,6 @@ export default function EstimateScreen() {
             >
               <View style={styles.sectionLeftContent}>
                 <Text style={styles.sectionHeaderText}>{section.title}</Text>
-                <View style={styles.plusIconWrapper}>
-                  <Entypo
-                    style={styles.plusIcon}
-                    name="plus"
-                    size={numbersAliasTokens.sizing.icon.lg}
-                  />
-                </View>
               </View>
               <Text style={styles.sectionHeaderText}>
                 {formatCurrency(calculateSectionTotal(section))}
@@ -91,27 +87,20 @@ export default function EstimateScreen() {
           );
         }}
         renderItem={({ item: row }) => (
-          <Pressable style={styles.row} onPress={() => handleItemPress(row)}>
-            <View style={styles.rowLeftContent}>
-              <Text style={styles.rowTitle}>{row.title}</Text>
-              <Text style={styles.rowPriceDetails}>
-                {formatCurrency(row.price)} × {row.quantity} {row.uom}
-              </Text>
-            </View>
-            <Text style={styles.rowTitle}>
-              {formatCurrency(row.price * row.quantity)}
-            </Text>
-          </Pressable>
+          <EstimateSectionRow row={row} handleItemPress={handleItemPress} />
         )}
         ListHeaderComponent={
-          <TextField
-            style={styles.titleInput}
-            value={estimate.title}
-            onChangeText={updateTitle}
-            multiline
-            keyboardAppearance={theme}
-            placeholder="Enter estimate title"
-          />
+          <View style={styles.titleWrapper}>
+            <Draft />
+            <TextField
+              style={styles.titleInput}
+              value={estimate.title}
+              onChangeText={updateTitle}
+              multiline
+              keyboardAppearance={theme}
+              placeholder="Enter estimate title"
+            />
+          </View>
         }
         ListFooterComponent={
           <View style={styles.estimateTotal}>
@@ -128,6 +117,8 @@ export default function EstimateScreen() {
         enablePanDownToClose
         snapPoints={["50%"]}
         index={-1}
+        backgroundStyle={styles.sheet}
+        backdropComponent={(props) => <BottomSheetBackdrop {...props} />}
       >
         <BottomSheetView>
           {editMode && (
@@ -153,10 +144,20 @@ export const getStyles = (theme: ThemeScheme) =>
       flex: 1,
       backgroundColor: colors.layer.solid.medium,
     },
+    switch: {
+      padding: numbers.spacing.md,
+    },
+    sheet: {
+      backgroundColor: colors.layer.solid.light,
+    },
+    titleWrapper: {
+      paddingInline: numbers.spacing.md,
+      marginBottom: numbers.spacing.lg,
+      gap: numbersAliasTokens.spacing["2xs"],
+    },
     titleInput: {
       ...fonts.bold.headline.sm,
       color: colors.text.primary,
-      paddingInline: numbers.spacing.md,
     },
     firstSectionHeader: {
       borderTopWidth: numbers.outlineHeight.xs,
@@ -180,39 +181,6 @@ export const getStyles = (theme: ThemeScheme) =>
       flexDirection: "row",
       gap: numbers.spacing["3xs"],
       alignItems: "center",
-    },
-    plusIconWrapper: {
-      borderRadius: numbers.borderRadius.pill,
-      backgroundColor: colors.layer.alpha.lightNeutral,
-      height: numbers.sizing.icon.xl,
-      width: numbers.sizing.icon.xl,
-      alignItems: "center",
-      justifyContent: "center",
-    },
-    plusIcon: {
-      color: colors.icon.primary,
-    },
-    row: {
-      flexDirection: "row",
-      padding: numbers.spacing.sm,
-      borderBottomWidth: numbers.outlineHeight.xs,
-      borderColor: colors.outline.medium,
-      justifyContent: "space-between",
-      alignItems: "flex-start",
-      backgroundColor: colors.layer.solid.light,
-    },
-    rowLeftContent: {
-      flex: 1,
-      marginRight: numbers.spacing.sm,
-    },
-    rowTitle: {
-      ...fonts.regular.text.md,
-      color: colors.text.primary,
-      marginBottom: numbers.spacing["3xs"],
-    },
-    rowPriceDetails: {
-      ...fonts.regular.text.sm,
-      color: colors.text.secondary,
     },
     estimateTotal: {
       flexDirection: "row",
