@@ -29,6 +29,7 @@ const config: ExpoConfig = {
     "expo-router",
     "expo-dev-client",
     "expo-web-browser",
+    "expo-font",
     [
       "expo-splash-screen",
       {
@@ -36,18 +37,6 @@ const config: ExpoConfig = {
         imageWidth: 200,
         resizeMode: "contain",
         backgroundColor: "#000000",
-      },
-    ],
-    [
-      "expo-font",
-      {
-        fonts: [
-          "node_modules/@expo-google-fonts/inter/Inter_400Regular.ttf",
-          "node_modules/@expo-google-fonts/inter/Inter_500Medium.ttf",
-          "node_modules/@expo-google-fonts/inter/Inter_600SemiBold.ttf",
-          "node_modules/@expo-google-fonts/poppins/Poppins_400Regular.ttf",
-          "node_modules/@expo-google-fonts/poppins/Poppins_600SemiBold.ttf",
-        ],
       },
     ],
   ],

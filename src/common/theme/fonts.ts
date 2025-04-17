@@ -1,4 +1,13 @@
-import { Platform } from "react-native";
+import {
+  Inter_400Regular,
+  Inter_500Medium,
+  Inter_600SemiBold,
+} from "@expo-google-fonts/inter";
+import {
+  Poppins_400Regular,
+  Poppins_600SemiBold,
+} from "@expo-google-fonts/poppins";
+import { useFonts as useFontsFromExpo } from "expo-font";
 import type { TextStyle } from "react-native";
 
 import { numbersBaseTokens } from "./tokens/base/numbers";
@@ -22,30 +31,15 @@ export type FontsKeys = {
   [K in keyof CustomFonts]: `${keyof CustomFonts}.${FontSpec}.${FontSize}`;
 }[keyof CustomFonts];
 
-export const poppinsFontFace = {
-  400: Platform.select({
-    ios: "Poppins-Regular",
-    default: "Poppins_400Regular",
-  }),
-  600: Platform.select({
-    ios: "Poppins-SemiBold",
-    default: "Poppins_600SemiBold",
-  }),
+const poppinsFontFace = {
+  400: "Poppins_400Regular",
+  600: "Poppins_600SemiBold",
 };
 
-export const interFontFace = {
-  400: Platform.select({
-    ios: "Inter-Regular",
-    default: "Inter_400Regular",
-  }),
-  500: Platform.select({
-    ios: "Inter-Medium",
-    default: "Inter_500Medium",
-  }),
-  600: Platform.select({
-    ios: "Inter-SemiBold",
-    default: "Inter_600SemiBold",
-  }),
+const interFontFace = {
+  400: "Inter_400Regular",
+  500: "Inter_500Medium",
+  600: "Inter_600SemiBold",
 };
 
 interface FontFamilies {
@@ -213,3 +207,15 @@ export const customFonts = {
     },
   },
 } as const satisfies CustomFonts;
+
+export const useFonts = () => {
+  return useFontsFromExpo({
+    // Poppins
+    Poppins_400Regular,
+    Poppins_600SemiBold,
+    // Inter
+    Inter_400Regular,
+    Inter_500Medium,
+    Inter_600SemiBold,
+  });
+};

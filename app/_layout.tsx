@@ -8,19 +8,27 @@ import {
   ThemeProvider,
   useThemeScheme,
 } from "@/src/common/hooks/useCurrentThemeScheme";
+import { useFonts } from "@/src/common/theme/fonts";
 import { getColors } from "@/src/common/theme/tokens/alias/colors";
 
 SplashScreen.preventAutoHideAsync();
 
 function Navigation() {
-  const { theme, isReady } = useThemeScheme();
+  const { theme, isReady: isThemeReady } = useThemeScheme();
   const colors = getColors(theme);
+  const [fontsLoaded, fontsError] = useFonts();
+
+  const appReady = isThemeReady && (fontsLoaded || fontsError);
 
   useEffect(() => {
-    if (isReady) SplashScreen.hide();
-  }, [isReady]);
+    if (appReady) {
+      SplashScreen.hide();
+    }
+  }, [appReady]);
 
-  if (!isReady) return null;
+  if (!appReady) {
+    return null;
+  }
 
   return (
     <SafeAreaView
