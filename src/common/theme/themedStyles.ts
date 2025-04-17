@@ -3,6 +3,10 @@ import { StyleSheet, ViewStyle, TextStyle, ImageStyle } from "react-native";
 import { CustomFonts, customFonts } from "./fonts";
 import { ColorMode, getColors } from "./tokens/alias/colors";
 import { numbersAliasTokens } from "./tokens/alias/numbers";
+import {
+  ColorMode as ColorModeToken,
+  getComponentTokens,
+} from "./tokens/components";
 import { ThemeScheme } from "./types";
 
 type StyleProps = ViewStyle | TextStyle | ImageStyle;
@@ -14,6 +18,7 @@ const themeTokensCache = new Map<
     colors: ColorMode;
     numbers: typeof numbersAliasTokens;
     fonts: CustomFonts;
+    tokens: ColorModeToken;
   }
 >();
 
@@ -23,6 +28,7 @@ function getThemeTokens(theme: ThemeScheme) {
       colors: getColors(theme),
       numbers: numbersAliasTokens,
       fonts: customFonts,
+      tokens: getComponentTokens(theme),
     });
   }
   return themeTokensCache.get(theme)!;
@@ -32,6 +38,7 @@ type ThemeTokens = {
   colors: ColorMode;
   numbers: typeof numbersAliasTokens;
   fonts: CustomFonts;
+  tokens: ColorModeToken;
 };
 
 const styleSheetCache = new WeakMap<Function, Map<ThemeScheme, any>>();

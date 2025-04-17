@@ -1,10 +1,12 @@
 import { forwardRef } from "react";
 import { TextInput, TextInputProps } from "react-native";
 
-interface TextFieldProps extends TextInputProps {}
+import { useThemeScheme } from "../hooks/useCurrentThemeScheme";
 
-export const TextField = forwardRef<TextInput, TextFieldProps>(
-  function (props, ref) {
-    return <TextInput ref={ref} {...props} />;
+export const TextField = forwardRef<TextInput, TextInputProps>(
+  function TextField(props, ref) {
+    const { theme } = useThemeScheme();
+
+    return <TextInput ref={ref} {...props} keyboardAppearance={theme} />;
   },
 );

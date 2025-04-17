@@ -1,7 +1,5 @@
 import { View, StyleSheet, Pressable } from "react-native";
 
-import type { EstimateRow, EstimateSection } from "@/data";
-
 import { Text } from "../common/components/Text";
 import { TextField } from "../common/components/TextField";
 import {
@@ -9,7 +7,7 @@ import {
   calculateEstimateTotal,
 } from "../common/lib/estimate";
 
-import { EditForm } from "./EditForm";
+import { EditForm } from "./components/EditForm";
 import { useEstimateScreen } from "./useEstimateScreen";
 
 export default function EstimateScreenDesktop() {
@@ -66,8 +64,8 @@ export default function EstimateScreenDesktop() {
                 style={[
                   styles.sectionHeader,
                   editMode?.type === "section" &&
-                    editMode.data.id === section.id &&
-                    styles.selectedSection,
+                  editMode.data.id === section.id &&
+                  styles.selectedSection,
                 ]}
                 onPress={() => handleStartSectionEdit(section)}
               >
@@ -81,8 +79,8 @@ export default function EstimateScreenDesktop() {
                   style={[
                     styles.tableRow,
                     editMode?.type === "item" &&
-                      editMode.data.id === row.id &&
-                      styles.selectedRow,
+                    editMode.data.id === row.id &&
+                    styles.selectedRow,
                   ]}
                   onPress={() => handleStartItemEdit(row)}
                 >

@@ -1,11 +1,15 @@
 import React, { useState } from "react";
-import { View, StyleSheet } from "react-native";
+import { View, Platform } from "react-native";
 
 import { EstimateRow, EstimateSection, UnitOfMeasure } from "@/data";
+import { BottomSheetTextField } from "@/src/common/components/BottomSheet";
+import { TextField } from "@/src/common/components/TextField";
+import { useThemeScheme } from "@/src/common/hooks/useCurrentThemeScheme";
+import { createThemedStyleSheet } from "@/src/common/theme/themedStyles";
+import { ThemeScheme } from "@/src/common/theme/types";
 
-import { Button } from "../common/components/Button";
-import { Text } from "../common/components/Text";
-import { TextField } from "../common/components/TextField";
+import { Button } from "../../common/components/Button";
+import { Text } from "../../common/components/Text";
 
 type EditFormProps = {
   mode: "item" | "section";
@@ -19,6 +23,9 @@ function isEstimateRow(data: any): data is EstimateRow {
 }
 
 export function EditForm({ mode, data, onSave, onClose }: EditFormProps) {
+  const { theme } = useThemeScheme();
+  const styles = getStyles(theme);
+
   const [title, setTitle] = useState(data.title);
   const [price, setPrice] = useState(
     isEstimateRow(data) ? data.price.toString() : "",
@@ -42,7 +49,11 @@ export function EditForm({ mode, data, onSave, onClose }: EditFormProps) {
     } else {
       onSave({ title });
     }
+    onClose();
   };
+
+  const TextFieldComponent =
+    Platform.OS === "web" ? TextField : BottomSheetTextField;
 
   return (
     <View style={styles.container}>
@@ -51,8 +62,8 @@ export function EditForm({ mode, data, onSave, onClose }: EditFormProps) {
       </Text>
 
       <View style={styles.field}>
-        <Text>Title</Text>
-        <TextField
+        <Text style={styles.label}>Title</Text>
+        <TextFieldComponent
           style={styles.input}
           value={title}
           onChangeText={setTitle}
@@ -63,8 +74,8 @@ export function EditForm({ mode, data, onSave, onClose }: EditFormProps) {
       {mode === "item" && (
         <>
           <View style={styles.field}>
-            <Text>Price</Text>
-            <TextField
+            <Text style={styles.label}>Price</Text>
+            <TextFieldComponent
               style={styles.input}
               value={price}
               onChangeText={setPrice}
@@ -73,8 +84,8 @@ export function EditForm({ mode, data, onSave, onClose }: EditFormProps) {
             />
           </View>
           <View style={styles.field}>
-            <Text>Quantity</Text>
-            <TextField
+            <Text style={styles.label}>Quantity</Text>
+            <TextFieldComponent
               style={styles.input}
               value={quantity}
               onChangeText={setQuantity}
@@ -86,10 +97,8 @@ export function EditForm({ mode, data, onSave, onClose }: EditFormProps) {
       )}
 
       <View style={styles.formActions}>
-        <Button onPress={handleSave} style={styles.button}>
-          Save
-        </Button>
-        <Button variant="secondary" onPress={onClose} style={styles.button}>
+        <Button onPress={handleSave}>Save</Button>
+        <Button variant="secondary" onPress={onClose}>
           Cancel
         </Button>
       </View>
@@ -97,30 +106,38 @@ export function EditForm({ mode, data, onSave, onClose }: EditFormProps) {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    padding: 16,
-  },
-  header: {
-    marginBottom: 16,
-  },
-  field: {
-    marginBottom: 16,
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: "#ccc",
-    borderRadius: 8,
-    padding: 12,
-    marginTop: 4,
-  },
-  formActions: {
-    flexDirection: "row",
-    justifyContent: "flex-end",
-    gap: 8,
-    marginTop: 24,
-  },
-  button: {
-    minWidth: 100,
-  },
-});
+export const getStyles = (theme: ThemeScheme) =>
+  createThemedStyleSheet(theme, ({ colors, numbers, fonts }) => ({
+    container: {
+      backgroundColor: colors.layer.solid.light,
+      padding: 16,
+    },
+    header: {
+      ...fonts.bold.text.md,
+      textAlign: "center",
+      marginBottom: 16,
+      color: colors.text.primary,
+    },
+    field: {
+      marginBottom: 16,
+    },
+    label: {
+      ...fonts.regular.text.xs,
+      color: colors.text.secondary,
+    },
+    input: {
+      ...fonts.regular.text.sm,
+      lineHeight: 0,
+      borderWidth: numbers.outlineHeight.xs,
+      color: colors.text.primary,
+      borderColor: colors.outline.dark,
+      borderRadius: numbers.borderRadius.md,
+      padding: numbers.spacing.xs,
+      alignItems: "center",
+    },
+    formActions: {
+      justifyContent: "flex-end",
+      gap: 8,
+      marginTop: 24,
+    },
+  }));

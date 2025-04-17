@@ -7,10 +7,10 @@ import Animated, {
   useDerivedValue,
 } from "react-native-reanimated";
 
-import { useThemeScheme } from "../hooks/useCurrentThemeScheme";
-import { createThemedStyleSheet } from "../theme/themedStyles";
-import { numbersAliasTokens } from "../theme/tokens/alias/numbers";
-import { ThemeScheme } from "../theme/types";
+import { useThemeScheme } from "@/src/common/hooks/useCurrentThemeScheme";
+import { createThemedStyleSheet } from "@/src/common/theme/themedStyles";
+import { numbersAliasTokens } from "@/src/common/theme/tokens/alias/numbers";
+import { ThemeScheme } from "@/src/common/theme/types";
 
 const SWITCH_WIDTH = 88;
 const SWITCH_HEIGHT = 40;
@@ -78,7 +78,7 @@ export const ThemeSwitch = () => {
 };
 
 export const getStyles = (theme: ThemeScheme) =>
-  createThemedStyleSheet(theme, ({ colors, numbers, fonts }) => ({
+  createThemedStyleSheet(theme, ({ colors, numbers }) => ({
     container: {
       borderRadius: numbers.borderRadius.sm,
       backgroundColor: colors.layer.solid.dark,
@@ -92,7 +92,7 @@ export const getStyles = (theme: ThemeScheme) =>
     },
     highlight: {
       backgroundColor: colors.layer.solid.light,
-      borderWidth: 1,
+      borderWidth: numbers.outlineHeight.xs,
       borderColor: colors.outline.medium,
       borderRadius: numbers.borderRadius.sm,
       width: SWITCH_WIDTH / 2 - 2,

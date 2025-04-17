@@ -1,10 +1,16 @@
 import { forwardRef, PropsWithChildren, useState } from "react";
-import { Pressable, StyleSheet, PressableProps, View } from "react-native";
+import { Pressable, PressableProps, View } from "react-native";
+
+import { useThemeScheme } from "../hooks/useCurrentThemeScheme";
+import { createThemedStyleSheet } from "../theme/themedStyles";
+import { ThemeScheme } from "../theme/types";
 
 import { Text } from "./Text";
 
+type ButtonVariant = "primary" | "secondary";
+
 interface ButtonProps extends PressableProps {
-  variant?: "primary" | "secondary";
+  variant?: ButtonVariant;
 }
 
 export const Button = forwardRef<View, PropsWithChildren<ButtonProps>>(
@@ -13,6 +19,8 @@ export const Button = forwardRef<View, PropsWithChildren<ButtonProps>>(
     ref,
   ) {
     const [hovered, setHovered] = useState(false);
+    const { theme } = useThemeScheme();
+    const styles = getStyles(theme, variant);
 
     return (
       <Pressable
@@ -21,7 +29,7 @@ export const Button = forwardRef<View, PropsWithChildren<ButtonProps>>(
           styles.button,
           disabled && styles.disabled,
           hovered && styles.hovered,
-          style,
+          typeof style !== "function" && style,
         ]}
         disabled={disabled}
         onHoverIn={() => setHovered(true)}
@@ -34,9 +42,22 @@ export const Button = forwardRef<View, PropsWithChildren<ButtonProps>>(
   },
 );
 
-const styles = StyleSheet.create({
-  button: {},
-  disabled: {},
-  text: {},
-  hovered: {},
-});
+const getStyles = (theme: ThemeScheme, variant: ButtonVariant) =>
+  createThemedStyleSheet(theme, ({ colors, numbers, fonts, tokens }) => ({
+    button: {
+      borderRadius: tokens.button.borderRadius,
+      backgroundColor: tokens.button.background[variant].idle,
+      padding: numbers.spacing["xs"],
+    },
+    disabled: {
+      backgroundColor: tokens.button.background[variant].idle,
+    },
+    text: {
+      ...fonts.regular.text.md,
+      textAlign: "center",
+      color: variant === "primary" ? colors.text.white : colors.text.primary,
+    },
+    hovered: {
+      backgroundColor: tokens.button.background[variant].hover,
+    },
+  }));
