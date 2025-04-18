@@ -77,6 +77,11 @@ export const sampleEstimate: Estimate = {
           price: 45.0,
           quantity: 8,
           uom: "HR",
+          supplier: {
+            name: "Lowe's",
+            logoUrl:
+              "https://pub-ca0b94acca574deeadc8cbc9c1fc1a09.r2.dev/lowes.png",
+          },
         },
         {
           id: "d2",
@@ -84,6 +89,11 @@ export const sampleEstimate: Estimate = {
           price: 450.0,
           quantity: 1,
           uom: "LS",
+          supplier: {
+            name: "Lowe's",
+            logoUrl:
+              "https://pub-ca0b94acca574deeadc8cbc9c1fc1a09.r2.dev/lowes.png",
+          },
         },
       ],
     },
@@ -99,11 +109,10 @@ export const sampleEstimate: Estimate = {
           uom: "LF",
           supplier: {
             name: "Home Depot",
-            // This URL is just for demo purposes
             productUrl:
               "https://www.homedepot.com/p/Hampton-Bay-Designer-Series-Melvern-Assembled-36x34-5x23-75-in-Base-Kitchen-Cabinet-with-Ball-Bearing-Drawer-Glides-in-White-B36-MELW/305468743",
             logoUrl:
-              "https://corporate.homedepot.com/sites/default/files/image_gallery/THD_logo.jpg",
+              "https://pub-ca0b94acca574deeadc8cbc9c1fc1a09.r2.dev/home-depot.png",
             sku: "305468743",
           },
         },
@@ -119,7 +128,7 @@ export const sampleEstimate: Estimate = {
             productUrl:
               "https://www.homedepot.com/p/Hampton-Bay-Designer-Series-Melvern-Assembled-30x30x11-75-in-Wall-Kitchen-Cabinet-in-White-W3030-MELW/305468086",
             logoUrl:
-              "https://corporate.homedepot.com/sites/default/files/image_gallery/THD_logo.jpg",
+              "https://pub-ca0b94acca574deeadc8cbc9c1fc1a09.r2.dev/home-depot.png",
             sku: "305468086",
           },
         },
@@ -142,6 +151,11 @@ export const sampleEstimate: Estimate = {
           price: 75.0,
           quantity: 35,
           uom: "SF",
+          supplier: {
+            name: "Lowe's",
+            logoUrl:
+              "https://pub-ca0b94acca574deeadc8cbc9c1fc1a09.r2.dev/lowes.png",
+          },
         },
         {
           id: "ct2",
@@ -149,6 +163,11 @@ export const sampleEstimate: Estimate = {
           price: 18.0,
           quantity: 30,
           uom: "SF",
+          supplier: {
+            name: "Home Depot",
+            logoUrl:
+              "https://pub-ca0b94acca574deeadc8cbc9c1fc1a09.r2.dev/home-depot.png",
+          },
         },
       ],
     },
@@ -162,6 +181,11 @@ export const sampleEstimate: Estimate = {
           price: 12.0,
           quantity: 120,
           uom: "SF",
+          supplier: {
+            name: "Home Depot",
+            logoUrl:
+              "https://pub-ca0b94acca574deeadc8cbc9c1fc1a09.r2.dev/home-depot.png",
+          },
         },
         {
           id: "f2",
@@ -176,6 +200,11 @@ export const sampleEstimate: Estimate = {
           price: 175.0,
           quantity: 1,
           uom: "LS",
+          supplier: {
+            name: "Lowe's",
+            logoUrl:
+              "https://pub-ca0b94acca574deeadc8cbc9c1fc1a09.r2.dev/lowes.png",
+          },
         },
       ],
     },

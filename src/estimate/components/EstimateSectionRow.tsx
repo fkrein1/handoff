@@ -1,3 +1,4 @@
+import { Image } from "expo-image";
 import React from "react";
 import { Pressable, View } from "react-native";
 
@@ -28,9 +29,19 @@ export function EstimateSectionRow({
           {formatCurrency(row.price)} × {row.quantity} {row.uom}
         </Text>
       </View>
-      <Text style={styles.rowTitle}>
-        {formatCurrency(row.price * row.quantity)}
-      </Text>
+      <View style={styles.rowRightContent}>
+        <Text style={styles.rowTitle}>
+          {formatCurrency(row.price * row.quantity)}
+        </Text>
+        {row.supplier?.logoUrl && (
+          <Image
+            style={styles.image}
+            source={row.supplier.logoUrl}
+            contentFit="contain"
+            alt={`${row.supplier.name} logo`}
+          />
+        )}
+      </View>
     </Pressable>
   );
 }
@@ -43,7 +54,7 @@ const getStyles = (theme: ThemeScheme) =>
       borderBottomWidth: numbers.outlineHeight.xs,
       borderColor: colors.outline.medium,
       justifyContent: "space-between",
-      alignItems: "flex-start",
+      alignItems: "stretch",
       backgroundColor: colors.layer.solid.light,
     },
     rowLeftContent: {
@@ -58,5 +69,17 @@ const getStyles = (theme: ThemeScheme) =>
     rowPriceDetails: {
       ...fonts.regular.text.sm,
       color: colors.text.secondary,
+    },
+    rowRightContent: {
+      justifyContent: "space-between",
+      alignItems: "flex-end",
+    },
+    image: {
+      width: numbers.sizing.icon.xl,
+      height: numbers.sizing.icon.xl,
+      backgroundColor: colors.icon.white,
+      borderRadius: numbers.borderRadius.sm,
+      borderWidth: numbers.outlineHeight.xs,
+      borderColor: colors.outline.light,
     },
   }));
