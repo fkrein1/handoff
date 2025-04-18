@@ -1,6 +1,6 @@
 import { BottomSheetBackdrop, BottomSheetView } from "@gorhom/bottom-sheet";
 import { useRef } from "react";
-import { View, Pressable, SectionList } from "react-native";
+import { View, Pressable, SectionList, Keyboard } from "react-native";
 
 import type { EstimateRow, EstimateSection } from "@/data";
 
@@ -115,9 +115,10 @@ export default function EstimateScreen() {
       <BottomSheet
         ref={bottomSheetRef}
         enablePanDownToClose
-        snapPoints={["50%"]}
+        snapPoints={["20%"]}
         index={-1}
         backgroundStyle={styles.sheet}
+        onChange={(index) => index === -1 && Keyboard.dismiss()}
         backdropComponent={(props) => <BottomSheetBackdrop {...props} />}
       >
         <BottomSheetView>

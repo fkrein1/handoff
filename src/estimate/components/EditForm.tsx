@@ -5,6 +5,11 @@ import { EstimateRow, EstimateSection, UnitOfMeasure } from "@/data";
 import { BottomSheetTextField } from "@/src/common/components/BottomSheet";
 import { TextField } from "@/src/common/components/TextField";
 import { useThemeScheme } from "@/src/common/hooks/useCurrentThemeScheme";
+import {
+  formatCurrency,
+  formatInputCurrency,
+  formatInputCurrencyToNumber,
+} from "@/src/common/lib/formatting";
 import { createThemedStyleSheet } from "@/src/common/theme/themedStyles";
 import { ThemeScheme } from "@/src/common/theme/types";
 
@@ -28,7 +33,7 @@ export function EditForm({ mode, data, onSave, onClose }: EditFormProps) {
 
   const [title, setTitle] = useState(data.title);
   const [price, setPrice] = useState(
-    isEstimateRow(data) ? data.price.toString() : "",
+    isEstimateRow(data) ? formatCurrency(data.price) : "",
   );
   const [quantity, setQuantity] = useState(
     isEstimateRow(data) ? data.quantity.toString() : "",
@@ -37,12 +42,16 @@ export function EditForm({ mode, data, onSave, onClose }: EditFormProps) {
     isEstimateRow(data) ? data.uom : "EA",
   );
 
+  const handlePriceChange = (input: string) => {
+    setPrice(formatInputCurrency(input));
+  };
+
   const handleSave = () => {
     if (mode === "item") {
       onSave({
         ...data,
         title,
-        price: parseFloat(price),
+        price: formatInputCurrencyToNumber(price),
         quantity: parseFloat(quantity),
         uom,
       });
@@ -72,18 +81,18 @@ export function EditForm({ mode, data, onSave, onClose }: EditFormProps) {
       </View>
 
       {mode === "item" && (
-        <>
-          <View style={styles.field}>
+        <View style={styles.itemRow}>
+          <View style={styles.itemField}>
             <Text style={styles.label}>Price</Text>
             <TextFieldComponent
               style={styles.input}
               value={price}
-              onChangeText={setPrice}
+              onChangeText={handlePriceChange}
               keyboardType="decimal-pad"
               placeholder="Enter price"
             />
           </View>
-          <View style={styles.field}>
+          <View style={styles.itemField}>
             <Text style={styles.label}>Quantity</Text>
             <TextFieldComponent
               style={styles.input}
@@ -93,7 +102,7 @@ export function EditForm({ mode, data, onSave, onClose }: EditFormProps) {
               placeholder="Enter quantity"
             />
           </View>
-        </>
+        </View>
       )}
 
       <View style={styles.formActions}>
@@ -121,13 +130,21 @@ export const getStyles = (theme: ThemeScheme) =>
     field: {
       marginBottom: 16,
     },
+    itemField: {
+      flex: 1,
+    },
+    itemRow: {
+      flexDirection: "row",
+      gap: numbers.spacing.md,
+      marginBottom: 16,
+    },
     label: {
       ...fonts.regular.text.xs,
       color: colors.text.secondary,
     },
     input: {
       ...fonts.regular.text.sm,
-      lineHeight: 0,
+      lineHeight: Platform.OS === "ios" ? 0 : undefined,
       borderWidth: numbers.outlineHeight.xs,
       color: colors.text.primary,
       borderColor: colors.outline.dark,
