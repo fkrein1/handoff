@@ -30,6 +30,7 @@ const config: ExpoConfig = {
     "expo-dev-client",
     "expo-web-browser",
     "expo-font",
+    "react-native-edge-to-edge",
     [
       "expo-splash-screen",
       {
