@@ -12,6 +12,7 @@ export function useEstimateScreen() {
     selectItem,
     selectSection,
     clearSelection,
+    deleteItem,
   } = useEstimateContext();
 
   const handleSaveItem = (updatedItem: EstimateRow) => {
@@ -20,6 +21,10 @@ export function useEstimateScreen() {
     }
 
     updateItem(updatedItem.id, updatedItem);
+  };
+
+  const handleDeleteItem = (deletedItem: EstimateRow) => {
+    deleteItem(deletedItem.id);
   };
 
   const handleSaveSection = (updates: Partial<EstimateSection>) => {
@@ -39,5 +44,6 @@ export function useEstimateScreen() {
     handleSaveItem,
     handleSaveSection,
     handleStopEdit: clearSelection,
+    handleDeleteItem,
   };
 }

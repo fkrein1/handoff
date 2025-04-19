@@ -23,6 +23,7 @@ interface EstimateContextValue {
   selectItem: (item: EstimateRow) => void;
   selectSection: (section: EstimateSection) => void;
   clearSelection: () => void;
+  deleteItem: (rowId: string) => void;
 }
 
 export const EstimateContext = createContext<EstimateContextValue | null>(null);
@@ -67,6 +68,17 @@ export function EstimateProvider({ children }: PropsWithChildren) {
     setEditMode(null);
   };
 
+  const deleteItem = (rowId: string) => {
+    setEstimate((prev) => ({
+      ...prev,
+      updatedAt: new Date(),
+      sections: prev.sections.map((section) => ({
+        ...section,
+        rows: section.rows.filter((row) => row.id !== rowId),
+      })),
+    }));
+  };
+
   const selectItem = (item: EstimateRow) => {
     setEditMode({ type: "item", data: item });
   };
@@ -88,6 +100,7 @@ export function EstimateProvider({ children }: PropsWithChildren) {
     selectItem,
     selectSection,
     clearSelection,
+    deleteItem,
   };
 
   return (
