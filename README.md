@@ -1,36 +1,47 @@
-# Handoff Frontend Take-Home Challenge
+# Handoff Frontend
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app) as a starting point for the frontend engineering take-home challenge.
+![Project Screenshot](https://via.placeholder.com/800x400.png?text=Project+Screenshot)
 
-## Project Structure
+---
 
-```s
-├── app/                  # Main application (file-based routing)
-├── assets/               # Static assets
-├── src/                  # Source code
-│   ├── common/           # Shared components and utilities
-│   │   ├── components/   # Reusable UI components
-│   │   ├── lib/          # Utility functions and helpers
-│   │   └── theme/        # Design system theme
-│   │       ├── tokens/   # Design tokens (colors, spacing)
-│   └── estimate/         # Feature-specific code
-```
+## 📱 Download
+- **Android APK:** [Download latest build (EAS)](https://your-eas-apk-link-here.com)
 
-## Getting Started
+---
 
-1. Install dependencies
+## 🚀 Running the Project on Web
 
+- **Install dependencies:**
     ```bash
-    npm install
+    bun install
+    ```
+- **Start the Expo development server:**
+    ```bash
+    bun start
+    ```
+    - `w` to open the app in your web browser
+
+---
+
+## 📱 Building and Running on Simulators
+
+You can build and run the app on iOS and Android simulators using Bun:
+
+- **Build and launch on iOS Simulator:**
+    ```bash
+    bun ios
+    ```
+- **Build and launch on Android Emulator:**
+    ```bash
+    bun android
     ```
 
-2. Start the app
+- **Start the Expo development server:**
     ```bash
-    npx expo start
+    bun start
     ```
+- **Press the following keys in the Expo CLI terminal:**
+    - `i` to open the app in the iOS Simulator
+    - `a` to open the app in the Android Emulator
 
-## Resources
-
--   [Figma Design](https://www.figma.com/design/Blk49Bk32ACk3yuDC2Vsq5/Take-Home-Assement---Front-End-Jan-2025?node-id=4044-145&t=4yKjBuOChIiCckTl-11) (Password: `H@ndoff#`)
--   [Expo Documentation](https://docs.expo.dev/)
--   [React Native Documentation](https://reactnative.dev/)
+---
