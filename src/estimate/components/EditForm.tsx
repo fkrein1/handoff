@@ -38,6 +38,9 @@ export function EditForm({ mode, data, onSave, onClose }: EditFormProps) {
   const [quantity, setQuantity] = useState(
     isEstimateRow(data) ? data.quantity.toString() : "",
   );
+
+  //TODO: implement picker uom
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [uom, setUom] = useState<UnitOfMeasure>(
     isEstimateRow(data) ? data.uom : "EA",
   );
@@ -119,16 +122,16 @@ export const getStyles = (theme: ThemeScheme) =>
   createThemedStyleSheet(theme, ({ colors, numbers, fonts }) => ({
     container: {
       backgroundColor: colors.layer.solid.light,
-      padding: 16,
+      padding: numbers.spacing.sm,
     },
     header: {
       ...fonts.bold.text.md,
       textAlign: "center",
-      marginBottom: 16,
+      marginBottom: numbers.spacing.sm,
       color: colors.text.primary,
     },
     field: {
-      marginBottom: 16,
+      marginBottom: numbers.spacing.sm,
     },
     itemField: {
       flex: 1,
@@ -136,7 +139,7 @@ export const getStyles = (theme: ThemeScheme) =>
     itemRow: {
       flexDirection: "row",
       gap: numbers.spacing.md,
-      marginBottom: 16,
+      marginBottom: numbers.spacing.sm,
     },
     label: {
       ...fonts.regular.text.xs,
@@ -154,7 +157,6 @@ export const getStyles = (theme: ThemeScheme) =>
     },
     formActions: {
       justifyContent: "flex-end",
-      gap: 8,
-      marginTop: 24,
+      gap: numbers.spacing["2xs"],
     },
   }));

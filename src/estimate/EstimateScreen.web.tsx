@@ -183,7 +183,7 @@ export const getStyles = (theme: ThemeScheme) =>
     },
     formContainer: {
       alignSelf: "flex-start",
-      padding: numbers.spacing.sm,
+      padding: numbers.spacing["2xs"],
       flex: 3,
       borderWidth: numbers.outlineHeight.xs,
       borderRadius: numbers.borderRadius.lg,

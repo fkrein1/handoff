@@ -7,7 +7,7 @@ import { TextInput } from "react-native-gesture-handler";
 
 import { useThemeScheme } from "../hooks/useCurrentThemeScheme";
 
-export type BottomSheet = BottomSheetComponent;
+export type BottomSheetType = BottomSheetComponent;
 
 export const BottomSheet = forwardRef<BottomSheetComponent, BottomSheetProps>(
   function BottomSheet(props, ref) {

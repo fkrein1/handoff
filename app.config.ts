@@ -2,7 +2,7 @@ import { ExpoConfig } from "expo/config";
 
 const config: ExpoConfig = {
   name: "Handoff",
-  slug: "Handoff",
+  slug: "frontend-take-home",
   version: "1.0.0",
   orientation: "portrait",
   icon: "./assets/images/icon.png",

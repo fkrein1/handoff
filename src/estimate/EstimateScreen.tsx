@@ -4,7 +4,7 @@ import { View, Pressable, SectionList, Keyboard } from "react-native";
 
 import type { EstimateRow, EstimateSection } from "@/data";
 
-import { BottomSheet } from "../common/components/BottomSheet";
+import { BottomSheet, BottomSheetType } from "../common/components/BottomSheet";
 import { Text } from "../common/components/Text";
 import { TextField } from "../common/components/TextField";
 import { useThemeScheme } from "../common/hooks/useCurrentThemeScheme";
@@ -14,7 +14,6 @@ import {
 } from "../common/lib/estimate";
 import { formatCurrency } from "../common/lib/formatting";
 import { createThemedStyleSheet } from "../common/theme/themedStyles";
-import { numbersAliasTokens } from "../common/theme/tokens/alias/numbers";
 import { ThemeScheme } from "../common/theme/types";
 
 import { Draft } from "./components/Draft";
@@ -24,7 +23,7 @@ import { ThemeSwitch } from "./components/ThemeSwitch";
 import { useEstimateScreen } from "./useEstimateScreen";
 
 export default function EstimateScreen() {
-  const bottomSheetRef = useRef<BottomSheet>(null);
+  const bottomSheetRef = useRef<BottomSheetType>(null);
   const { theme } = useThemeScheme();
   const styles = getStyles(theme);
 
@@ -37,6 +36,7 @@ export default function EstimateScreen() {
     handleSaveItem,
     handleSaveSection,
     handleStopEdit,
+    handleDeleteItem,
   } = useEstimateScreen();
 
   const handleSectionPress = (section: EstimateSection) => {
@@ -87,7 +87,11 @@ export default function EstimateScreen() {
           );
         }}
         renderItem={({ item: row }) => (
-          <EstimateSectionRow row={row} handleItemPress={handleItemPress} />
+          <EstimateSectionRow
+            row={row}
+            handleItemPress={handleItemPress}
+            handleDeleteItem={handleDeleteItem}
+          />
         )}
         ListHeaderComponent={
           <View style={styles.titleWrapper}>
@@ -154,7 +158,7 @@ export const getStyles = (theme: ThemeScheme) =>
     titleWrapper: {
       paddingInline: numbers.spacing.md,
       marginBottom: numbers.spacing.lg,
-      gap: numbersAliasTokens.spacing["2xs"],
+      gap: numbers.spacing["xs"],
     },
     titleInput: {
       ...fonts.bold.headline.sm,
