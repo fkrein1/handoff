@@ -1,11 +1,12 @@
 # Handoff Frontend
 
-![Project Screenshot](https://via.placeholder.com/800x400.png?text=Project+Screenshot)
-
----
-
 ## 📱 Download
-- **Android APK:** [Download latest build (EAS)](https://your-eas-apk-link-here.com)
+- **Web Version:** [Open in Browser](https://handoff--44s03ziyuv.expo.app/)
+- **Android APK:** [Download the Android Build](https://expo.dev/accounts/felipekrein/projects/frontend-take-home/builds/a7a58b72-e209-48c9-ac79-76785a921e97)
+<br>
+
+<img width="800" alt="Screenshot 2025-04-19 at 07 44 24" src="https://github.com/user-attachments/assets/645b097a-f8f4-42a0-949a-a1ce5b5b977a" />
+
 
 ---
 
