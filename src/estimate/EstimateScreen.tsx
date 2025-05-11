@@ -1,6 +1,7 @@
 import { BottomSheetBackdrop, BottomSheetView } from "@gorhom/bottom-sheet";
-import { useRef } from "react";
-import { View, Pressable, SectionList, Keyboard } from "react-native";
+import { FlashList } from "@shopify/flash-list";
+import { useCallback, useRef, useMemo } from "react";
+import { View, Pressable, Keyboard } from "react-native";
 
 import type { EstimateRow, EstimateSection } from "@/data";
 
@@ -22,6 +23,20 @@ import { EstimateSectionRow } from "./components/EstimateSectionRow";
 import { ThemeSwitch } from "./components/ThemeSwitch";
 import { useEstimateScreen } from "./useEstimateScreen";
 
+type ListItem =
+  | {
+      id: string;
+      type: "section";
+      data: EstimateSection;
+      isFirstSection: boolean;
+    }
+  | {
+      id: string;
+      type: "row";
+      data: EstimateRow;
+      sectionId: string;
+    };
+
 export default function EstimateScreen() {
   const bottomSheetRef = useRef<BottomSheetType>(null);
   const { theme } = useThemeScheme();
@@ -39,82 +54,131 @@ export default function EstimateScreen() {
     handleDeleteItem,
   } = useEstimateScreen();
 
-  const handleSectionPress = (section: EstimateSection) => {
-    handleStartSectionEdit(section);
-    bottomSheetRef.current?.expand();
-  };
+  const handleSectionPress = useCallback(
+    (section: EstimateSection) => {
+      handleStartSectionEdit(section);
+      bottomSheetRef.current?.expand();
+    },
+    [handleStartSectionEdit],
+  );
 
-  const handleItemPress = (item: EstimateRow) => {
-    handleStartItemEdit(item);
-    bottomSheetRef.current?.expand();
-  };
+  const handleItemPress = useCallback(
+    (item: EstimateRow) => {
+      handleStartItemEdit(item);
+      bottomSheetRef.current?.expand();
+    },
+    [handleStartItemEdit],
+  );
 
-  const handleCloseBottomSheet = () => {
+  const handleCloseBottomSheet = useCallback(() => {
     bottomSheetRef.current?.close();
     handleStopEdit();
-  };
+  }, [handleStopEdit]);
+
+  const listData = useMemo<ListItem[]>(() => {
+    const items: ListItem[] = [];
+    estimate.sections.forEach((section, index) => {
+      // Add section header
+      items.push({
+        id: `section-${section.id}`,
+        type: "section",
+        data: section,
+        isFirstSection: index === 0,
+      });
+
+      // Add section rows
+      section.rows.forEach((row) => {
+        items.push({
+          id: row.id,
+          type: "row",
+          data: row,
+          sectionId: section.id,
+        });
+      });
+    });
+    return items;
+  }, [estimate]);
+
+  const renderItem = useCallback(
+    ({ item }: { item: ListItem }) => {
+      if (item.type === "section") {
+        const section = item.data as EstimateSection;
+        return (
+          <Pressable
+            onPress={() => handleSectionPress(section)}
+            style={[
+              styles.sectionHeader,
+              item.isFirstSection && styles.firstSectionHeader,
+            ]}
+          >
+            <View style={styles.sectionLeftContent}>
+              <Text style={styles.sectionHeaderText}>{section.title}</Text>
+            </View>
+            <Text style={styles.sectionHeaderText}>
+              {formatCurrency(calculateSectionTotal(section))}
+            </Text>
+          </Pressable>
+        );
+      } else {
+        const row = item.data as EstimateRow;
+        return (
+          <EstimateSectionRow
+            row={row}
+            handleItemPress={handleItemPress}
+            handleDeleteItem={handleDeleteItem}
+          />
+        );
+      }
+    },
+    [handleSectionPress, handleItemPress, handleDeleteItem, styles],
+  );
+
+  const ListHeaderComponent = useCallback(
+    () => (
+      <View style={styles.titleWrapper}>
+        <Draft />
+        <TextField
+          style={styles.titleInput}
+          value={estimate.title}
+          onChangeText={updateTitle}
+          multiline
+          keyboardAppearance={theme}
+          placeholder="Enter estimate title"
+        />
+      </View>
+    ),
+    [estimate.title, updateTitle, theme, styles],
+  );
+
+  const ListFooterComponent = useCallback(
+    () => (
+      <View style={styles.estimateTotal}>
+        <Text style={styles.estimateTotalText}>Total:</Text>
+        <Text style={styles.estimateTotalText}>
+          {formatCurrency(calculateEstimateTotal(estimate))}
+        </Text>
+      </View>
+    ),
+    [estimate, styles],
+  );
 
   return (
     <View style={styles.container}>
       <View style={styles.switch}>
         <ThemeSwitch />
       </View>
-      <SectionList
-        sections={estimate.sections.map((section) => ({
-          ...section,
-          data: section.rows,
-        }))}
-        keyExtractor={(item) => item.id}
-        stickySectionHeadersEnabled
-        showsVerticalScrollIndicator={false}
-        renderSectionHeader={({ section }) => {
-          const isFirstSection = section.id === estimate.sections[0]?.id;
-          return (
-            <Pressable
-              onPress={() => handleSectionPress(section)}
-              style={[
-                styles.sectionHeader,
-                isFirstSection && styles.firstSectionHeader,
-              ]}
-            >
-              <View style={styles.sectionLeftContent}>
-                <Text style={styles.sectionHeaderText}>{section.title}</Text>
-              </View>
-              <Text style={styles.sectionHeaderText}>
-                {formatCurrency(calculateSectionTotal(section))}
-              </Text>
-            </Pressable>
-          );
-        }}
-        renderItem={({ item: row }) => (
-          <EstimateSectionRow
-            row={row}
-            handleItemPress={handleItemPress}
-            handleDeleteItem={handleDeleteItem}
-          />
-        )}
-        ListHeaderComponent={
-          <View style={styles.titleWrapper}>
-            <Draft />
-            <TextField
-              style={styles.titleInput}
-              value={estimate.title}
-              onChangeText={updateTitle}
-              multiline
-              keyboardAppearance={theme}
-              placeholder="Enter estimate title"
-            />
-          </View>
-        }
-        ListFooterComponent={
-          <View style={styles.estimateTotal}>
-            <Text style={styles.estimateTotalText}>Total:</Text>
-            <Text style={styles.estimateTotalText}>
-              {formatCurrency(calculateEstimateTotal(estimate))}
-            </Text>
-          </View>
-        }
-      />
+
+      <View style={styles.listContainer}>
+        <FlashList
+          data={listData}
+          estimatedItemSize={50}
+          showsVerticalScrollIndicator={false}
+          keyExtractor={(item) => item.id}
+          renderItem={renderItem}
+          ListHeaderComponent={ListHeaderComponent}
+          ListFooterComponent={ListFooterComponent}
+        />
+      </View>
 
       <BottomSheet
         ref={bottomSheetRef}
@@ -148,6 +212,9 @@ export const getStyles = (theme: ThemeScheme) =>
     container: {
       flex: 1,
       backgroundColor: colors.layer.solid.medium,
+    },
+    listContainer: {
+      flex: 1,
     },
     switch: {
       padding: numbers.spacing.md,
